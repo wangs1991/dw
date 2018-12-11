@@ -1,0 +1,49 @@
+module.exports = [{
+  value: 8,
+  label: 8
+}, {
+  value: 12,
+  label: 12
+}, {
+  value: 14,
+  label: 14
+}, {
+  value: 18,
+  label: 18
+}, {
+  value: 24,
+  label: 24
+}, {
+  value: 30,
+  label: 30
+}, {
+  value: 36,
+  label: 36
+}, {
+  value: 48,
+  label: 48
+}, {
+  value: 60,
+  label: 60
+}, {
+  value: 96,
+  label: 96
+}, {
+  value: 108,
+  label: 108
+}, {
+  value: 120,
+  label: 120
+}, {
+  value: 132,
+  label: 132
+}, {
+  value: 144,
+  label: 144
+}, {
+  value: 156,
+  label: 156
+}, {
+  value: 204,
+  label: 204
+}]
