@@ -29,21 +29,22 @@ export default {
       movePos: {},
       isDown: false,
       panelOffset: {},
-      panelStartGap: {}
+      panelStartGap: {},
+      applyPos: {}
     }
   },
-  computed: {
-    applyPos () {
-      let ret = _.cloneDeep(this.movePos)
-      let i
+  watch: {
+    movePos: {
+      deep: true,
+      handler (n) {
+        let i
 
-debugger
-      for (i in this.position) {
-        if (this.position.hasOwnProperty(i)) {
-          ret[i] = ret[i] || this.position[i]
+        for (i in this.position) {
+          if (this.position.hasOwnProperty(i)) {
+            this.applyPos[i] = n[i] || this.position[i]
+          }
         }
       }
-      return ret
     }
   },
   props: {
@@ -77,8 +78,8 @@ debugger
         if (!this.isDown) {
           return false
         }
-        this.movePos.top = e.pageY - this.panelStartGap.top + 'px'
-        this.movePos.left = e.pageX - this.panelStartGap.left + 'px'
+        this.movePos.top = e.pageY - 'px'
+        this.movePos.left = e.pageX - 'px'
       }, 200, {
         'leading': false,
         'trailing': true})
