@@ -10,6 +10,11 @@
       <i class="control-btns__close">×</i>
     </div>
     <div class="control-container__body">
+    <p>{{panelStartGap}}</p>
+    <p>{{panelOffset}}</p>
+    <p>{{movePos}}</p>
+    <p>{{applyPos}}</p>
+    
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aperiam consectetur distinctio earum eius nihil odio pariatur, perferendis quibusdam vitae. Consequatur distinctio eum exercitationem explicabo molestias, numquam officia repellat sit?
       <slot name="panelContent"></slot>
     </div>
@@ -32,6 +37,7 @@ export default {
       let ret = _.cloneDeep(this.movePos)
       let i
 
+debugger
       for (i in this.position) {
         if (this.position.hasOwnProperty(i)) {
           ret[i] = ret[i] || this.position[i]
@@ -60,17 +66,19 @@ export default {
     }
   },
   methods: {
-    mouseStartHandler () {
-      debugger
+    mouseStartHandler (e) {
       this.isDown = true
       this.panelOffset = $(this.$refs.DragPanel).offset()
+      this.panelStartGap.top = e.pageY - this.panelOffset.top
+      this.panelStartGap.left = e.pageX - this.panelOffset.left
     },
     mouseMoveHandler: (function () {
       return _.debounce(function (e) {
         if (!this.isDown) {
           return false
         }
-        console.log(e)
+        this.movePos.top = e.pageY - this.panelStartGap.top + 'px'
+        this.movePos.left = e.pageX - this.panelStartGap.left + 'px'
       }, 200, {
         'leading': false,
         'trailing': true})
