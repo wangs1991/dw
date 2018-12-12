@@ -1,23 +1,16 @@
 <template>
   <div class="control-container__main"
-       :style="applyPos"
+       :style="renderPos"
        ref="DragPanel"
-       @mousedown.left="mouseStartHandler"
-       @mousemove="mouseMoveHandler"
        v-show="isPoped">
     <div class="control-container__header">
-      属性
+      <div class="control-header__title" @mousedown.left="mouseStartHandler">{{title}}</div>
       <i class="control-btns__close">×</i>
     </div>
     <div class="control-container__body">
-    <p>{{panelStartGap}}</p>
-    <p>{{panelOffset}}</p>
-    <p>{{movePos}}</p>
-    <p>{{applyPos}}</p>
-    
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aperiam consectetur distinctio earum eius nihil odio pariatur, perferendis quibusdam vitae. Consequatur distinctio eum exercitationem explicabo molestias, numquam officia repellat sit?
       <slot name="panelContent"></slot>
     </div>
+    <div class="hiden-field">{{renderPos}}{{x}}</div>
   </div>
 </template>
 
@@ -26,25 +19,11 @@ export default {
   name: 'dragable-panel',
   data () {
     return {
-      movePos: {},
+      renderPos: {},
       isDown: false,
       panelOffset: {},
       panelStartGap: {},
-      applyPos: {}
-    }
-  },
-  watch: {
-    movePos: {
-      deep: true,
-      handler (n) {
-        let i
-
-        for (i in this.position) {
-          if (this.position.hasOwnProperty(i)) {
-            this.applyPos[i] = n[i] || this.position[i]
-          }
-        }
-      }
+      x: 0
     }
   },
   props: {
@@ -56,7 +35,7 @@ export default {
       type: Boolean,
       default: true
     },
-    position: {
+    styleString: {
       type: Object,
       default () {
         return {
@@ -68,22 +47,29 @@ export default {
   },
   methods: {
     mouseStartHandler (e) {
+      e.preventDefault()
       this.isDown = true
       this.panelOffset = $(this.$refs.DragPanel).offset()
       this.panelStartGap.top = e.pageY - this.panelOffset.top
       this.panelStartGap.left = e.pageX - this.panelOffset.left
     },
-    mouseMoveHandler: (function () {
-      return _.debounce(function (e) {
-        if (!this.isDown) {
-          return false
+    mouseMoveHandler (e) {
+      if (!this.isDown) {
+        return false
+      }
+      this.x = e.pageX
+      this.renderPos.top = e.pageY - this.panelStartGap.top + 'px'
+      this.renderPos.left = e.pageX - this.panelStartGap.left + 'px'
+    },
+    initStyle () {
+      let i
+
+      for (i in this.styleString) {
+        if (this.styleString.hasOwnProperty(i)) {
+          this.$set(this.renderPos, i, this.styleString[i])
         }
-        this.movePos.top = e.pageY - 'px'
-        this.movePos.left = e.pageX - 'px'
-      }, 200, {
-        'leading': false,
-        'trailing': true})
-    })()
+      }
+    }
   },
   mounted () {
     let self = this
@@ -91,6 +77,14 @@ export default {
     $('body').on('mouseup', () => {
       self.isDown = false
     })
+    document.addEventListener('mousemove', (e) => {
+      self.mouseMoveHandler(e)
+    })
+
+    this.$nextTick(this.initStyle)
+  },
+  beforeDestroy () {
+    document.addEventListener('mousemove', null)
   }
 }
 </script>
@@ -115,8 +109,11 @@ export default {
       line-height: 20px;
       padding-left: 5px;
       padding-right: 5px;
+      position: relative;
       .control-btns__close{
-        float: right;
+        position: absolute;
+        right: 0;
+        top: 0;
         font-size: 18px;
         width: 20px;
         height: 20px;
@@ -130,6 +127,9 @@ export default {
       overflow: hidden;
       overflow-y: auto;
       height: 300px;
+    }
+    .hiden-field{
+      display: none!important;
     }
   }
 </style>

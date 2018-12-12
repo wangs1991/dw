@@ -19,7 +19,7 @@
         </router-link>
       </li>
     </ul>-->
-    <dragable-panle></dragable-panle>
+    <dragable-panle :title="'音乐管理'" :styleString="{left: '100px', top: '100px', width: '800px'}"></dragable-panle>
   </div>
 </template>
 

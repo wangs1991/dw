@@ -316,6 +316,8 @@ Drawer.prototype = {
     })
 
     this.canvas.delegate('.asset-continer__root', 'mousedown', function (e) {
+      e.stopPropagation()
+      e.preventDefault()
       // 校准事件对象一定在root元素上
       if ($(e.target).hasClass('asset-continer__root')) {
         $assets = $(e.target)
@@ -392,7 +394,6 @@ Drawer.prototype = {
 
         console.log(originPot)
       } */
-      e.stopPropagation()
     })
 
     $('body').on('mouseup', function (e) {
