@@ -92,7 +92,7 @@ export default {
       styles: [],
       dragePanle: {
         title: '属性设置',
-        appearance: {left: '100px', top: '100px', width: '260px'}
+        appearance: {left: '160px', top: '70px', width: '260px'}
       }
     }
   },
@@ -151,7 +151,6 @@ export default {
     this.$store.commit('updateLoginRole', role)
 
     getStyles().then(data => {
-      console.log(data)
       this.styles = data
     })
   }

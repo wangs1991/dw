@@ -10,7 +10,7 @@
       <div class="zoomer-item__steper" @click="zoomCanvas()">
         最佳比例
       </div>
-      <div class="zoomer-item__music">
+      <div class="zoomer-item__music" @click="musicControler">
         音乐管理
       </div>
     </div>
@@ -21,11 +21,35 @@
            :style="style"
            @mousedown="setOrigin"></div>
     </div>
+    <dragable-panle :title="dragePanle.title"
+                    :isPoped="isPopedShow"
+                    :styleString="dragePanle.appearance"
+                    @close="closeAttr">
+      <slot>
+        <ul class="music-panle__list">
+          <li>
+            <div class="music-panel__item">
+              <label for="">背景音乐</label>
+              <audio :src="demo" controls="true"></audio>
+              <div class="music-item__controler">
+                1
+                2
+                3
+              </div>
+            </div>
+          </li>
+          <li>
+            音频
+          </li>
+        </ul>
+      </slot>
+    </dragable-panle>
   </div>
 </template>
 
 <script>
 import Drawer from '../assets/js/drawerTools'
+import DragablePanle from '../components/dragable-panel'
 
 const numReg = /([\d]*)%/
 let cacheBestScale
@@ -49,7 +73,13 @@ export default {
         top: 0,
         isDown: false
       },
-      prevScale: 1
+      prevScale: 1,
+      isPopedShow: true,
+      dragePanle: {
+        title: '音频管理',
+        appearance: {left: '550px', top: '360px', width: '360px', height: '200px'}
+      },
+      demo: require('../../static/audio/demo.mp3') 
     }
   },
   computed: {
@@ -138,7 +168,17 @@ export default {
       this.evtOrigin.isDown = true
       this.evtOrigin.left = e.clientX - target.left
       this.evtOrigin.top = e.clientY - target.top
+    },
+    musicControler () {
+      // 显示音乐
+      this.isPopedShow = !this.isPopedShow
+    },
+    closeAttr () {
+      this.isPopedShow = false
     }
+  },
+  components: {
+    DragablePanle
   },
   created () {
     let _self = this
@@ -215,6 +255,27 @@ export default {
         top: 0;
         background: rgba(255, 255, 255, .5);
         cursor: move;
+      }
+    }
+    .music-panle__list{
+      font-size: 12px;
+      li{
+        margin-bottom: 10px;
+        @include clear();
+        .music-panel__item{
+          background: #f00;
+          margin-left: 50px;
+          margin-right: 80px;
+          label{
+            float: left;
+            margin-left: -50px;
+          }
+          .music-item__controler{
+            float: right;
+            margin-right: -80px;
+            display: flex;
+          }
+        }
       }
     }
   }

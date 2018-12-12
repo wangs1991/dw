@@ -55,6 +55,7 @@
 
 <script>
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import {getSeriesByStyle} from '../server/actions'
 require('swiper/dist/css/swiper.css')
 export default {
   name: 'style-chooser',
@@ -71,7 +72,8 @@ export default {
           el: '.swiper-pagination',
           clickable: true
         }
-      }
+      },
+      seriesList: []
     }
   },
   props: {
@@ -84,11 +86,13 @@ export default {
   },
   watch: {
     selectedSeries (n) {
-      let ret
+      let ret = {
+        style: n
+      }
 
       this.styles[this.selectedStyle].series.forEach(n => {
         if (this.selectedSeries === n.id) {
-          ret = n
+          ret.series = n
         }
       })
 
@@ -96,6 +100,28 @@ export default {
       this.$store.commit('updataStyleChooser')
       // 选中当前风格和系列数据
       this.$store.commit('updateCurrentStyleData', ret)
+    },
+    selectedStyle () {
+      // 根据选择的风格选择对应的系列
+      getSeriesByStyle({custom: this.selectedStyle}).then(data => {
+        if (data.length < 1) {
+          //      通知store关闭风格选择框
+          this.$store.commit('updataStyleChooser')
+          // 选中当前风格和系列数据
+          this.$store.commit('updateCurrentStyleData', {
+            style: this.selectedStyle
+          })
+        } else {
+          this.seriesList = data
+        }
+      }, err => {
+          //      通知store关闭风格选择框
+          this.$store.commit('updataStyleChooser')
+          // 选中当前风格和系列数据
+          this.$store.commit('updateCurrentStyleData', {
+            style: this.selectedStyle
+          })
+      }).catch(e => {})
     }
   },
   computed: {
@@ -106,12 +132,6 @@ export default {
       set (n) {
         this.$store.commit('updataStyleChooser', n)
       }
-    },
-    seriesList () {
-      if (this.selectedStyle) {
-        return this.styles[this.selectedStyle].series
-      }
-      return []
     }
   },
   methods: {
@@ -137,6 +157,9 @@ export default {
     padding-top: 10px;
     padding-left: 10px;
     margin-left: -10px;
+    input[type="radio"] {
+      display: none;
+    }
     * {
       transition: all ease .12s;
     }

@@ -41,7 +41,10 @@ export const Editor = {
     canvasScale: 1, // 画布缩放的控制属性
     resizeStamp: '', // 窗体resize时通知底部地图的中间变量
     styleChooserFlag: true,
-    currentStyleData: '', // 当前选中的风格系列数据
+    currentStyleData: {
+      style: 0,
+      series: 0
+    }, // 当前选中的风格系列数据
     assetsSubState: 'close',
     loginRole: 'common',
     cacheData: {
