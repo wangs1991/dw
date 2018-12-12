@@ -26,6 +26,16 @@
       <dw-zoomer></dw-zoomer>
     </div>
     <style-chooser :styles="styles"></style-chooser>
+
+    <dragable-panle :title="dragePanle.title"
+                    :isPoped="isPopedShow"
+                    :styleString="dragePanle.appearance"
+                    @close="closeAttr">
+      <slot>
+        <component :is="AttrPanle"></component>
+      </slot>
+    </dragable-panle>
+
   </div>
 </template>
 
@@ -41,8 +51,10 @@ import AttrCanvas from './Attributes/AttrCanvas.vue'
 import AttrFont from './Attributes/AttrFont.vue'
 import AttrImg from './Attributes/AttrImg.vue'
 import AttrShape from './Attributes/AttrShape.vue'
+import DragablePanle from '../components/dragable-panel'
+import {getStyles} from '../server/actions'
 
-const generateStyles = () => {
+/* const generateStyles = () => {
   let data = []
   let o = 0
   let oMax = 4
@@ -63,21 +75,25 @@ const generateStyles = () => {
       cover: require('../../static/images/login-bg.jpg'),
       series: tmp
     }
-    /* data.push({
+    /!* data.push({
       id: o,
       name: '风格' + o,
       cover: require('../../static/images/login-bg.jpg'),
       series: tmp
-    }) */
+    }) *!/
   }
   return data
-}
+} */
 
 export default {
   name: 'Drawer',
   data () {
     return {
-      styles: generateStyles()
+      styles: [],
+      dragePanle: {
+        title: '属性设置',
+        appearance: {left: '100px', top: '100px', width: '260px'}
+      }
     }
   },
   watch: {
@@ -91,6 +107,9 @@ export default {
 //    当前操作组件数据
     assetData () {
       return this.$store.state.Editor.attributeData
+    },
+    isPopedShow () {
+      return !!this.$store.state.Editor.attributeData.id
     },
 //    属性面板的控制
     AttrPanle () {
@@ -111,6 +130,11 @@ export default {
       return this.$store.state.Editor.editType
     }
   },
+  methods: {
+    closeAttr () {
+      this.$store.commit('setAttributeData', {})
+    }
+  },
   components: {
     StyleChooser,
     AssetsList,
@@ -118,12 +142,18 @@ export default {
     DwCanvas,
     DwZoomer,
     DHeader,
-    Pagination
+    Pagination,
+    DragablePanle
   },
   mounted () {
     let role = this.$route.query.role
 
     this.$store.commit('updateLoginRole', role)
+
+    getStyles().then(data => {
+      console.log(data)
+      this.styles = data
+    })
   }
 }
 </script>

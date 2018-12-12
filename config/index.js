@@ -12,10 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/tomato': {
-        // target: 'http://app.hb.bjewaytek.com',   // 河北城乡居保服务器地址
         target: 'http://47.104.24.77:8080',
-        // target: 'http://harbin.bjewaytek.com',
-        // target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         pathRewrite: {
           '^/tomato': '/tomato'
@@ -24,7 +21,7 @@ module.exports = {
     },
     config:{
       version: '1.0.0',
-      host: 'http://47.104.24.77:8080'
+      // host: 'http://47.104.24.77:8080'
     },
 
     // Various Dev Server settings
@@ -69,7 +66,7 @@ module.exports = {
 
     config:{
       version: '1.0.0',
-      host: 'http://47.104.24.77:8080'
+      // host: 'http://47.104.24.77:8080'
     },
 
     /**

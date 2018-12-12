@@ -5,10 +5,10 @@
        v-show="isPoped">
     <div class="control-container__header">
       <div class="control-header__title" @mousedown.left="mouseStartHandler">{{title}}</div>
-      <i class="control-btns__close">×</i>
+      <i class="control-btns__close" @click="closePanle">×</i>
     </div>
     <div class="control-container__body">
-      <slot name="panelContent"></slot>
+      <slot></slot>
     </div>
     <div class="hiden-field">{{renderPos}}{{x}}</div>
   </div>
@@ -33,7 +33,7 @@ export default {
     },
     isPoped: {
       type: Boolean,
-      default: true
+      default: false
     },
     styleString: {
       type: Object,
@@ -69,6 +69,9 @@ export default {
           this.$set(this.renderPos, i, this.styleString[i])
         }
       }
+    },
+    closePanle () {
+      this.$emit('close')
     }
   },
   mounted () {
@@ -93,14 +96,15 @@ export default {
   .control-container__main {
     width: 280px;
     height: 400px;
-    position: absolute;
+    position: fixed;
     background: #fff;
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 500;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    overflow: hidden;
     .control-container__header {
       background: #cdcdcd;
       cursor: move;
@@ -126,7 +130,7 @@ export default {
       padding: 15px;
       overflow: hidden;
       overflow-y: auto;
-      height: 300px;
+      height: 360px;
     }
     .hiden-field{
       display: none!important;

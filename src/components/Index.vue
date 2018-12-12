@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <!--<h1>{{ msg }}</h1>
+    <h1>{{ msg }}</h1>
     <ul>
       <li>
         <router-link
@@ -18,23 +18,17 @@
           绘本阅读器
         </router-link>
       </li>
-    </ul>-->
-    <dragable-panle :title="'音乐管理'" :styleString="{left: '100px', top: '100px', width: '800px'}"></dragable-panle>
+    </ul>
   </div>
 </template>
 
 <script>
-import DragablePanle from '../components/dragable-panel'
-
 export default {
   name: 'Index',
   data () {
     return {
       msg: 'Hello 番茄派'
     }
-  },
-  components: {
-    DragablePanle
   },
   mounted () {
 

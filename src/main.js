@@ -20,10 +20,11 @@ Vue.use(InputNumber)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+const Application = new Vue({
   el: '#app',
   router,
   store: Store,
   components: { App },
   template: '<App/>'
 })
+export default Application

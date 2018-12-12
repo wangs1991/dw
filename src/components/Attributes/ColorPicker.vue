@@ -63,7 +63,8 @@ export default {
   .cpicker-panel__main{
     position: absolute;
     z-index: 500;
-    right: 15px;
+    right: -5px;
+    top: 35px;
     width: 220px;
     box-sizing: initial;
     background: #fff;

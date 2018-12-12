@@ -13,18 +13,23 @@
       (选择相应的风格后，场景页/背景/人物/文字/道具/形状等素材将会切换为对应风格的素材)
     </h2>
     <div class="template-container__scroll">
-      <ul class="template-list__group">
-        <li v-for="(item) in styles" :key="item.id" @click="chooseType(item)">
-          <label class="template-item__title" :for="'tpl' + item.id">
-            {{item.name}}
-          </label>
-          <input type="radio"
-                 name="tpl"
-                 v-model="selectedStyle"
-                 :id="'tpl' + item.id"
-                 :value="item.id"/>
-        </li>
-      </ul>
+      <div class="template-list__group">
+        <swiper :options="swiperOption">
+          <swiper-slide v-for="(item) in styles"
+                        class="template-item__ctner"
+                        :key="item.id"
+                        @click="chooseType(item)">
+            <label class="template-item__title" :for="'tpl' + item.id">
+              {{item.type}}
+            </label>
+            <input type="radio"
+                   name="tpl"
+                   v-model="selectedStyle"
+                   :id="'tpl' + item.id"
+                   :value="item.id"/>
+          </swiper-slide>
+        </swiper>
+      </div>
     </div>
     <div class="template-container__scroll">
       <div class="template-series__group">
@@ -142,7 +147,10 @@ export default {
         display: table;
         clear: both;
       }
-      li {
+      .swiper-wrapper{
+        padding: 10px;
+      }
+      .template-item__ctner {
         width: 186px;
         height: 330px;
         overflow: hidden;
