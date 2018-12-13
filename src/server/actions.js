@@ -6,6 +6,6 @@ export const getStyles = () => {
 
 export const getSeriesByStyle = (data) => {
   return get('/tomato/query/custom', {
-  	params: data
+    params: data
   }, true)
 }

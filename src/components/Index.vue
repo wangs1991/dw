@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <!--<h1>{{ msg }}</h1>
     <ul>
       <li>
         <router-link
@@ -18,17 +18,24 @@
           绘本阅读器
         </router-link>
       </li>
-    </ul>
+    </ul>-->
+    <div style="width: 350px; margin: 10px auto;">
+      <AudioItem></AudioItem>
+    </div>
   </div>
 </template>
 
 <script>
+import AudioItem from '../components/AudioItem.vue'
 export default {
   name: 'Index',
   data () {
     return {
       msg: 'Hello 番茄派'
     }
+  },
+  components: {
+    AudioItem
   },
   mounted () {
 

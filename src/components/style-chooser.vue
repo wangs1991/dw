@@ -114,7 +114,7 @@ export default {
         } else {
           this.seriesList = data
         }
-      }, err => {
+      }, () => {
           //      通知store关闭风格选择框
           this.$store.commit('updataStyleChooser')
           // 选中当前风格和系列数据
