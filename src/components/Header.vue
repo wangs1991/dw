@@ -9,7 +9,7 @@
         <router-link class="header-item__link"
                      :to="{name: 'Player'}"
                      target="_blank">预览</router-link>
-        <div class="header-item__link" @click="dwByFile">发布</div>
+        <div class="header-item__link" @click="publishBook">发布</div>
       </div>
     </div>
     <div class="header-panel__switcher">
@@ -22,6 +22,7 @@
 
 <script>
 import {fileTransfer} from '../assets/js/Utils'
+import {uploadMeta} from '../server/actions'
 export default {
   name: 'v-header',
   data () {
@@ -35,12 +36,24 @@ export default {
     },
     //    当前选择的风格系列数据
     currentSerieData () {
-      return this.$store.state.Editor.currentStyleData
+      return this.$store.state.Editor.bookBaseConfig
     }
   },
   methods: {
     showStyleChooser () {
       this.$store.commit('updataStyleChooser', true)
+    },
+    publishBook () {
+      // step.1: 上传文件
+      var data = new FormData()
+
+      data.append('file', fileTransfer(this.publishData, 'json', false))
+      uploadMeta(data).then(data => {
+        this.$store.commit('updateCurrentBookConfData', {
+          dataPath: data.data
+        })
+        this.$store.commit('tooglePublish', true)
+      }, true)
     },
     dwByFile () {
       var a = document.createElement('a')

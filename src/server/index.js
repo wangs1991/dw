@@ -1,25 +1,14 @@
 import axios from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 import Application from '../main'
 
 require('es6-promise').polyfill()
 
 // axios 配置
 axios.defaults.timeout = 80000
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers['X-Request-With'] = 'XMLHttpRequest' // ajax请求方式
 axios.defaults.responseType = 'json'
-// axios.defaults.baseURL = 'http://localhost:8099/'
-
-// POST传参序列化
-axios.interceptors.request.use((config) => {
-  if (config.method === 'post') {
-    config.data = qs.stringify(config.data)
-  }
-  return config
-}, (error) => {
-  console.log(error)
-  return Promise.reject(error)
-})
 
 // 返回状态判断
 // 返回状态截获

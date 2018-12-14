@@ -4,12 +4,19 @@
       <div>音频属性</div>
       <div class="music-item__warn">（全部页面有效）</div>
     </div>
-    <div class="music-item__controler">
+    <div class="music-item__controler" v-show="item && item.resource">
       <span class="music-item__ctr" @click="palyeMusic">P</span>
-      <span class="music-item__ctr">D</span>
-      <span class="music-item__ctr">R</span>
+      <span class="music-item__ctr" @click="delResource">D</span>
+      <span class="music-item__ctr">
+        <el-upload
+          action="/tomato/uploadImg"
+          :before-upload="fileCheck"
+          :on-success="refreshResource">
+          <el-button size="medium " type="primary">R</el-button>
+        </el-upload>
+      </span>
     </div>
-    <div class="music-item__content">
+    <div class="music-item__content" v-if="item && item.resource">
       <audio ref="player">
         <source :src="item.resource">
       </audio>
@@ -17,6 +24,7 @@
         <el-slider
           class="music-cutter"
           range
+          :disabled="isPlaying"
           :step="musicSteper.step"
           v-model="mrange"
           :max="musicSteper.duration">
@@ -33,6 +41,14 @@
         </div>
       </div>
     </div>
+    <div class="music-item__content" v-else>
+      <el-upload
+        action="/tomato/uploadImg"
+        :before-upload="fileCheck"
+        :on-success="refreshResource">
+        <el-button class="empty-uploader" size="small" type="primary">点击上传音频</el-button>
+      </el-upload>
+    </div>
   </div>
 </template>
 
@@ -45,7 +61,7 @@ export default {
       musicSteper: {
         step: 1,
         duration: 10000,
-        max: 12000,
+        max: 5000,
         min: 1000
       },
       volSteper: {
@@ -58,8 +74,8 @@ export default {
   computed: {
     mrange: {
       set (n) {
-        this.musicSteper.max = n[0]
-        this.musicSteper.min = n[1]
+        this.musicSteper.min = n[0]
+        this.musicSteper.max = n[1]
       },
       get () {
         return [this.musicSteper.max, this.musicSteper.min]
@@ -76,14 +92,15 @@ export default {
       required: false,
       type: Object,
       default () {
-        return {
-          resource: require('../../static/audio/demo.mp3'),
-          start: 0,
-          end: 2500,
-          volumn: 100,
-          isLoop: false,
-          type: ''
-        }
+        return {}
+//        return {
+//          resource: require('../../static/audio/demo.mp3'),
+//          start: 0,
+//          end: 2500,
+//          volumn: 100,
+//          isLoop: false,
+//          type: ''
+//        }
       }
     }
   },
@@ -103,11 +120,25 @@ export default {
 
       audio.oncanplay = e => {
         self.musicSteper.duration = audio.duration * 1000
-        self.$refs.player.addEventListener('progress', e => {
-          console.log(e)
+        self.$refs.player.addEventListener('timeupdate', function () {
+          if (this.currentTime * 1000 >= self.musicSteper.max) {
+            self.$refs.player.pause()
+            self.isPlaying = false
+          }
         })
       }
       audio.src = this.item.resource
+    },
+    refreshResource (response) {
+      this.$emit('refresh', globalConfig.host + '/' + response.data)
+    },
+    delResource () {
+      this.$emit('delete')
+    },
+    fileCheck (file) {
+      var etcReg = /\.(ogg|mp3)/i
+
+      return etcReg.test(file.name)
     }
   },
   mounted () {
@@ -118,7 +149,6 @@ export default {
 
 <style lang="scss">
 .music-panel__item{
-  background: rgba(255, 0, 0, .2);
   margin-left: 50px;
   margin-right: 80px;
   font-size: 14px;
@@ -135,6 +165,7 @@ export default {
   .music-item__content{
     padding-left: 10px;
     padding-right: 10px;
+    height: 60px;
     .music-item__cutter{
       height: 25px;
       border-bottom: 1px solid #ededed;
@@ -147,6 +178,16 @@ export default {
           height: 2px;
         }
       }
+    }
+    .empty-uploader,
+    .el-upload{
+      width: 100%;
+
+      height: 60px;
+      font-size: 16px;
+      color: #333;
+      background: transparent;
+      border: 0;
     }
     .music-item__info{
       height: 25px;

@@ -41,12 +41,14 @@ export const Editor = {
     canvasScale: 1, // 画布缩放的控制属性
     resizeStamp: '', // 窗体resize时通知底部地图的中间变量
     styleChooserFlag: true,
-    currentStyleData: {
+    bookBaseConfig: {
       style: 0,
-      series: 0
+      series: 0,
+      dataPath: ''
     }, // 当前选中的风格系列数据
     assetsSubState: 'close',
     loginRole: 'common',
+    isPublish: false,
     cacheData: {
       pageTpl: {}
     } // 全局数据缓存
@@ -96,8 +98,12 @@ export const Editor = {
       state.styleChooserFlag = data
     },
     // 存储当前选中的风格数据
-    updateCurrentStyleData (state, data = {}) {
-      state.currentStyleData = data
+    updateCurrentBookConfData (state, data = {}) {
+      var i
+
+      for (i in data) {
+        data.hasOwnProperty(i) && (state.bookBaseConfig[i] = data[i])
+      }
     },
     // 二级组件列表的展开关闭状态
     upateAssetsSubState (state, data = 'close') {
@@ -106,6 +112,9 @@ export const Editor = {
     // 设置编辑器的使用权限
     updateLoginRole (state, data = 'common') {
       state.loginRole = data
+    },
+    tooglePublish (state, data = false) {
+      state.isPublish = data
     }
   },
   actions: {}

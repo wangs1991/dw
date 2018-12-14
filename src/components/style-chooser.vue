@@ -99,7 +99,7 @@ export default {
 //      通知store关闭风格选择框
       this.$store.commit('updataStyleChooser')
       // 选中当前风格和系列数据
-      this.$store.commit('updateCurrentStyleData', ret)
+      this.$store.commit('updateCurrentBookConfData', ret)
     },
     selectedStyle () {
       // 根据选择的风格选择对应的系列
@@ -108,7 +108,7 @@ export default {
           //      通知store关闭风格选择框
           this.$store.commit('updataStyleChooser')
           // 选中当前风格和系列数据
-          this.$store.commit('updateCurrentStyleData', {
+          this.$store.commit('updateCurrentBookConfData', {
             style: this.selectedStyle
           })
         } else {
@@ -118,7 +118,7 @@ export default {
           //      通知store关闭风格选择框
           this.$store.commit('updataStyleChooser')
           // 选中当前风格和系列数据
-          this.$store.commit('updateCurrentStyleData', {
+          this.$store.commit('updateCurrentBookConfData', {
             style: this.selectedStyle
           })
       }).catch(e => {})

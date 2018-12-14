@@ -27,6 +27,8 @@
     </div>
     <style-chooser :styles="styles"></style-chooser>
 
+    <publish :isPublish="isPublish"></publish>
+
     <dragable-panle :title="dragePanle.title"
                     :isPoped="isPopedShow"
                     :styleString="dragePanle.appearance"
@@ -35,55 +37,24 @@
         <component :is="AttrPanle"></component>
       </slot>
     </dragable-panle>
-
   </div>
 </template>
 
 <script>
 import StyleChooser from '../components/style-chooser'
-import AssetsList from './AssetsList.vue'
-import AssetsBaseList from './AssetsBaseList.vue'
-import DHeader from './Header.vue'
-import Pagination from './Pagination.vue'
-import DwZoomer from './CanvasZoomer.vue'
-import DwCanvas from './DrawerCanvas'
-import AttrCanvas from './Attributes/AttrCanvas.vue'
-import AttrFont from './Attributes/AttrFont.vue'
-import AttrImg from './Attributes/AttrImg.vue'
-import AttrShape from './Attributes/AttrShape.vue'
+import AssetsList from '../components/AssetsList.vue'
+import AssetsBaseList from '../components/AssetsBaseList.vue'
+import DHeader from '../components/Header.vue'
+import Pagination from '../components/Pagination.vue'
+import DwZoomer from '../components/CanvasZoomer.vue'
+import DwCanvas from '../components/DrawerCanvas'
+import AttrCanvas from '../components/Attributes/AttrCanvas.vue'
+import AttrFont from '../components/Attributes/AttrFont.vue'
+import AttrImg from '../components/Attributes/AttrImg.vue'
+import AttrShape from '../components/Attributes/AttrShape.vue'
 import DragablePanle from '../components/dragable-panel'
+import Publish from '../pages/Publish'
 import {getStyles} from '../server/actions'
-
-/* const generateStyles = () => {
-  let data = []
-  let o = 0
-  let oMax = 4
-  let i = 0
-  let iMax = 5
-  let tmp = []
-  for (; o < oMax; o++) {
-    for (; i < iMax; i++) {
-      tmp.push({
-        id: i + '_' + i,
-        name: '大耳朵图图' + o + i,
-        cover: require('../../static/images/banner.jpg')
-      })
-    }
-    data[o] = {
-      id: o,
-      name: '风格' + o,
-      cover: require('../../static/images/login-bg.jpg'),
-      series: tmp
-    }
-    /!* data.push({
-      id: o,
-      name: '风格' + o,
-      cover: require('../../static/images/login-bg.jpg'),
-      series: tmp
-    }) *!/
-  }
-  return data
-} */
 
 export default {
   name: 'Drawer',
@@ -110,6 +81,9 @@ export default {
     },
     isPopedShow () {
       return !!this.$store.state.Editor.attributeData.id
+    },
+    isPublish () {
+      return this.$store.state.Editor.isPublish
     },
 //    属性面板的控制
     AttrPanle () {
@@ -143,7 +117,8 @@ export default {
     DwZoomer,
     DHeader,
     Pagination,
-    DragablePanle
+    DragablePanle,
+    Publish
   },
   mounted () {
     let role = this.$route.query.role
