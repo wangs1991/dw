@@ -269,6 +269,7 @@ export default {
   deleteChild () {
   },
   removeAllChildren (data, cbk) {
+    debugger
     let children = data.children
     let i
 

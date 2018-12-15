@@ -26,14 +26,20 @@
                     :styleString="dragePanle.appearance"
                     @close="closeAttr">
       <slot>
-        <ul class="music-panle__list">
-          <li>
-
-          </li>
-          <li>
-            音频
-          </li>
-        </ul>
+        <music-item :item="backgroundMusic"
+                    :text="{
+          title: '背景音乐',
+          label: '（对所有页面应用）'
+                    }"
+                    @update="bgMusicUpdate"
+                    @delete="bgMusicDelete"></music-item>
+        <music-item :item="pageMusic"
+                    :text="{
+          title: '页面音乐',
+          label: '（仅当前页面应用）'
+                    }"
+                    @update="musicUpdate"
+                    @delete="musicDelete"></music-item>
       </slot>
     </dragable-panle>
   </div>
@@ -42,6 +48,8 @@
 <script>
 import Drawer from '../assets/js/drawerTools'
 import DragablePanle from '../components/dragable-panel'
+import MusicItem from '../components/AudioItem.vue'
+import dataUtils from '../assets/js/utils_mcdata'
 
 const numReg = /([\d]*)%/
 let cacheBestScale
@@ -66,10 +74,10 @@ export default {
         isDown: false
       },
       prevScale: 1,
-      isPopedShow: true,
+      isPopedShow: false,
       dragePanle: {
         title: '音频管理',
-        appearance: {left: '550px', top: '360px', width: '360px', height: '200px'}
+        appearance: {left: '550px', top: '360px', width: '460px', height: '170px'}
       },
       demo: require('../../static/audio/demo.mp3')
     }
@@ -94,6 +102,20 @@ export default {
         ret = Math.max(50, ret)
         this.zoomCanvas(ret / 100)
       }
+    },
+    backgroundMusic () {
+      // 读取整本书的数据，第一页的 bgMusic 配置
+      let bookData = this.$store.state.Editor.bookData[0]
+      let data = dataUtils.getHead(bookData)
+
+      return data ? data.bgMusic : {}
+    },
+    pageMusic () {
+      // 读取当前页面数据的 music 配置
+      let pageData = this.$store.state.Editor.currentEditData
+      let data = dataUtils.getHead(pageData)
+
+      return data ? data.music : {}
     }
   },
   watch: {
@@ -167,10 +189,23 @@ export default {
     },
     closeAttr () {
       this.isPopedShow = false
+    },
+    bgMusicUpdate (data) {
+      this.$store.commit('updateBgMusic', data)
+    },
+    bgMusicDelete () {
+      this.$store.commit('updateBgMusic', {})
+    },
+    musicUpdate (data) {
+      this.$store.commit('updatePageMusic', data)
+    },
+    musicDelete () {
+      this.$store.commit('updatePageMusic', {})
     }
   },
   components: {
-    DragablePanle
+    DragablePanle,
+    MusicItem
   },
   created () {
     let _self = this

@@ -86,20 +86,10 @@ export default {
   },
   watch: {
     selectedSeries (n) {
-      let ret = {
-        style: n
-      }
-
-      this.styles[this.selectedStyle].series.forEach(n => {
-        if (this.selectedSeries === n.id) {
-          ret.series = n
-        }
-      })
-
 //      通知store关闭风格选择框
       this.$store.commit('updataStyleChooser')
       // 选中当前风格和系列数据
-      this.$store.commit('updateCurrentBookConfData', ret)
+      this.$store.commit('updateCurrentBookConfData', this.selectedStyle)
     },
     selectedStyle () {
       // 根据选择的风格选择对应的系列

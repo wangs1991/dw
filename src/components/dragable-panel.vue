@@ -2,7 +2,7 @@
   <div class="control-container__main"
        :style="renderPos"
        ref="DragPanel"
-       v-show="isPoped">
+       v-if="isPoped">
     <div class="control-container__header">
       <div class="control-header__title" @mousedown.left="mouseStartHandler">{{title}}</div>
       <i class="control-btns__close" @click="closePanle">×</i>
@@ -124,6 +124,7 @@ export default {
         line-height: 20px;
         text-align: center;
         cursor: pointer;
+        font-style: normal;
       }
     }
     .control-container__body {

@@ -1,8 +1,8 @@
 <template>
   <div class="music-panel__item">
     <div class="music-item__label">
-      <div>音频属性</div>
-      <div class="music-item__warn">（全部页面有效）</div>
+      <div>{{text.title}}</div>
+      <div class="music-item__warn">{{text.label}}</div>
     </div>
     <div class="music-item__controler" v-show="item && item.resource">
       <span class="music-item__ctr" @click="palyeMusic">P</span>
@@ -27,6 +27,7 @@
           :disabled="isPlaying"
           :step="musicSteper.step"
           v-model="mrange"
+          :show-file-list="false"
           :max="musicSteper.duration">
         </el-slider>
       </div>
@@ -36,6 +37,7 @@
           <el-slider
             :step="volSteper.stop"
             v-model="volSteper.volume"
+            ref="uploader1"
             :max="volSteper.max">
           </el-slider>
         </div>
@@ -45,6 +47,7 @@
       <el-upload
         action="/tomato/uploadImg"
         :before-upload="fileCheck"
+        :show-file-list="false"
         :on-success="refreshResource">
         <el-button class="empty-uploader" size="small" type="primary">点击上传音频</el-button>
       </el-upload>
@@ -85,6 +88,13 @@ export default {
   watch: {
     'volSteper.volume' (n) {
       this.$refs.player.volume = n / 100
+      this.update()
+    },
+    musicSteper: {
+      deep: true,
+      handler: function (n) {
+        this.update()
+      }
     }
   },
   props: {
@@ -93,14 +103,24 @@ export default {
       type: Object,
       default () {
         return {}
-//        return {
-//          resource: require('../../static/audio/demo.mp3'),
-//          start: 0,
-//          end: 2500,
-//          volumn: 100,
-//          isLoop: false,
-//          type: ''
-//        }
+        /* return {
+          resource: require('../../static/audio/demo.mp3'),
+          start: 0,
+          end: 2500,
+          volumn: 100,
+          isLoop: false,
+          type: ''
+        } */
+      }
+    },
+    text: {
+      required: true,
+      type: Object,
+      default () {
+        return {
+          title: '背景音乐',
+          label: '（对所有页面有效）'
+        }
       }
     }
   },
@@ -118,19 +138,21 @@ export default {
       var audio = document.createElement('audio')
       var self = this
 
-      audio.oncanplay = e => {
+      console.log(this.item)
+      audio.oncanplay = function () {
         self.musicSteper.duration = audio.duration * 1000
         self.$refs.player.addEventListener('timeupdate', function () {
           if (this.currentTime * 1000 >= self.musicSteper.max) {
-            self.$refs.player.pause()
             self.isPlaying = false
+            self.$refs.player.pause()
           }
         })
       }
       audio.src = this.item.resource
     },
     refreshResource (response) {
-      this.$emit('refresh', globalConfig.host + '/' + response.data)
+      this.update(response.data)
+      this.initMusic()
     },
     delResource () {
       this.$emit('delete')
@@ -139,6 +161,18 @@ export default {
       var etcReg = /\.(ogg|mp3)/i
 
       return etcReg.test(file.name)
+    },
+    update (source) {
+      this.$nextTick(function () {
+        let ret = {}
+
+        ret.resource = source || this.item.resource
+        ret.start = this.musicSteper.min
+        ret.end = this.musicSteper.max
+        ret.volume = this.volSteper.volume
+
+        this.$emit('update', ret)
+      })
     }
   },
   mounted () {
@@ -149,8 +183,8 @@ export default {
 
 <style lang="scss">
 .music-panel__item{
-  margin-left: 50px;
-  margin-right: 80px;
+  margin-left: 7em;
+  margin-right: 8em;
   font-size: 14px;
   .music-item__label {
     float: left;
@@ -230,6 +264,7 @@ export default {
       height: 8px;
       border: 0;
       border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, .3);
     }
   }
   .music-item__controler{

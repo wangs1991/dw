@@ -9,6 +9,7 @@
           drag
           ref="uploader"
           action="/tomato/uploadImg"
+          :show-file-list="false"
           :on-success="readImg">
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     readImg (response, file, fileList) { // 图片上传完获取图片信息
-      this.modifyStyle('src', globalConfig.host + '/' + response.data)
+      this.modifyStyle('src', response.data)
     },
     modifyStyle (key, value) {
       let ret

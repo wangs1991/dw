@@ -9,7 +9,6 @@
     :close-on-press-escape="false"
     width="820px"
     center>
-    {{bookForm.dataPath}}
     <el-form :model="bookForm" :rules="rules" ref="bookForm" label-width="100px">
       <el-form-item label="封面" prop="cover">
         <el-upload
@@ -44,7 +43,7 @@
       return {
         dialogTitle: '发布设置',
         bookForm: {
-          cover: 'asdfasdfasdf.jpg', // 绘本封面路径
+          cover: '', // 绘本封面路径
           name: '', // 绘本名字
           dataPath: '', // 数据配置文件的连接地址
           describeInfo: '', // 描述信息
@@ -94,10 +93,10 @@
         const isLt2M = file.size / 1024 / 1024 < 2
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!')
+          alert('封面图片只能是 JPG 格式!')
         }
         if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!')
+          alert('封面图片大小不能超过 2MB!')
         }
         return isJPG && isLt2M
       },

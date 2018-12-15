@@ -30,9 +30,9 @@ export default {
     }
   },
   computed: {
-//    最终数据
+    //    最终数据
     publishData () {
-      return this.$store.state.Editor.currentEditData
+      return this.$store.state.Editor.bookData
     },
     //    当前选择的风格系列数据
     currentSerieData () {
@@ -48,12 +48,14 @@ export default {
       var data = new FormData()
 
       data.append('file', fileTransfer(this.publishData, 'json', false))
-      uploadMeta(data).then(data => {
+      uploadMeta(data).then(res => {
         this.$store.commit('updateCurrentBookConfData', {
-          dataPath: data.data
+          dataPath: res
         })
         this.$store.commit('tooglePublish', true)
       }, true)
+
+      this.dwByFile()
     },
     dwByFile () {
       var a = document.createElement('a')

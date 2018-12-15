@@ -17,3 +17,7 @@ export const publishBook = data => {
 export const uploadMeta = data => {
   return post('/tomato/uploadImg', data)
 }
+
+export const getBookList = data => {
+  return get('/tomato/all')
+}
