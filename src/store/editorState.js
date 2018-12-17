@@ -41,6 +41,7 @@ export const Editor = {
     canvasScale: 1, // 画布缩放的控制属性
     resizeStamp: '', // 窗体resize时通知底部地图的中间变量
     styleChooserFlag: true,
+    page: 0,
     bookBaseConfig: {
       style: 0,
       series: 0,
@@ -58,6 +59,25 @@ export const Editor = {
     initBookData (state, data) {
       state.bookData = data
       this.commit('setCurrentEditData', data[0])
+    },
+    // 更新某一页的数据
+    updatePageData (state, data = {page: 0, data: {}}) {
+      state.bookData.splice(data.page, 1, data.data)
+      this.commit('setCurrentEditData', data.data)
+    },
+    // 设置当前编辑的页数
+    setCurrentPage (state, data) {
+      state.page = data
+      this.commit('setCurrentEditData', state.bookData[data])
+    },
+    // 删除当前页面
+    deletePage (state) {
+      let page
+
+      page = --state.page
+      page = page < 0 ? 0 : page
+      state.bookData.splice(state.page, 1)
+      this.commit('setCurrentEditData', page)
     },
     // 设置当前的编辑器编辑内容
     updateEditType (state, data = 0) {
@@ -138,13 +158,16 @@ export const Editor = {
       Head.bgMusic = data
       state.bookData.splice(0, 1, Page)
     },
-    // 跟新页面配音文件
+    // 更新页面配音文件
     updatePageMusic (state, data = {}) {
       let ret = _.cloneDeep(state.currentEditData)
       let Head = dataUtils.getHead(ret)
       Head.music = data
 
-      this.commit('setCurrentEditData', ret)
+      this.commit('updatePageData', {
+        page: state.page,
+        data: ret
+      })
     }
   },
   actions: {}

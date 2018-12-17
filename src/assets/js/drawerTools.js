@@ -597,7 +597,6 @@ Drawer.prototype = {
       this.setCanvas(list[rootId]) // 刷新适配画布
     }
     dataUtils.everyChild(list, rootId, function (n) {
-      console.log(n)
       // TODO: 优化组件内在编辑的时候的显示转化
       // 给每一个组件重新计算样式并应用
       _self.updataAsset('#' + n.id, n.style.root, undefined, true)

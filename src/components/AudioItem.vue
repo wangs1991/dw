@@ -17,7 +17,7 @@
       </span>
     </div>
     <div class="music-item__content" v-if="item && item.resource">
-      <audio ref="player">
+      <audio ref="player" muted>
         <source :src="item.resource">
       </audio>
       <div class="music-item__cutter">
@@ -95,6 +95,11 @@ export default {
       handler: function (n) {
         this.update()
       }
+    },
+    'item.resource' (n) {
+      this.$nextTick(() => {
+        this.initMusic()
+      })
     }
   },
   props: {
@@ -141,13 +146,13 @@ export default {
       console.log(this.item)
       audio.oncanplay = function () {
         self.musicSteper.duration = audio.duration * 1000
-        self.$refs.player.addEventListener('timeupdate', function () {
-          if (this.currentTime * 1000 >= self.musicSteper.max) {
-            self.isPlaying = false
-            self.$refs.player.pause()
-          }
-        })
       }
+      self.$refs.player.addEventListener('timeupdate', function () {
+        if (this.currentTime * 1000 >= self.musicSteper.max) {
+          self.isPlaying = false
+          self.$refs.player.pause()
+        }
+      })
       audio.src = this.item.resource
     },
     refreshResource (response) {

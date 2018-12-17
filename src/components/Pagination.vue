@@ -10,7 +10,12 @@
          :class="{active: current === idx}"
          @click="selectPage(idx)"
          :key="idx">
-      <span class="pagination-item__preview"></span>
+      <span class="pagination-item__preview">
+        <div class="pagination-operate__wraper">
+          <span class="pagination-operate__button" @click="delPage">删除</span>
+          <span class="pagination-operate__button" @click="copyPage">复制</span>
+        </div>
+      </span>
       <div class="pagination-item__number">第 {{idx+1}} 页</div>
     </div>
 
@@ -49,8 +54,14 @@ export default{
     selectPage (n) {
       this.$nextTick(function () {
         this.current = n
-        this.$store.commit('setCurrentEditData', this.list[n])
+        this.$store.commit('setCurrentPage', n)
       })
+    },
+    copyPage () {
+
+    },
+    delPage () {
+      this.$store.commit('deletePage')
     }
   },
   mounted () {
@@ -83,6 +94,21 @@ export default{
       margin-bottom: 10px;
       border-radius: 2px;
       box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+      position: relative;
+      .pagination-operate__wraper{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        display: flex;
+        .pagination-operate__button{
+          font-size: 14px;
+          line-height: 2em;
+          cursor: pointer;
+          text-align: center;
+        }
+      }
     }
     .pagination-item__number{
       font-size: 10px;

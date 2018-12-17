@@ -2,9 +2,12 @@
   <div class="player-container__main">
     <div class="player-control__main">
       <div class="player-control__item" @click="setPage(-1)">&lt;</div>
-      <div class="player-control__progress">{{currentPage}} / {{list.length - 1}}</div>
+      <div class="player-control__progress">{{playIdx+1}} / {{list.length}}</div>
       <div class="player-control__item" @click="setPage(1)">&gt;</div>
     </div>
+
+    <audio ref="background" muted autoplay="true" data-id="background"></audio>
+    <audio ref="pageMusic" muted autoplay="true" data-id="pageMusic"></audio>
     <div class="player-screen__main">
     </div>
   </div>
@@ -14,6 +17,7 @@
 import Drawer from '../assets/js/drawerTools'
 import dataUtils from '../assets/js/utils_mcdata'
 import {Listener} from '../assets/js/Utils'
+
 export default {
   data () {
     return {
@@ -23,10 +27,10 @@ export default {
   },
   computed: {
     list () {
-      return this.$store.state.Editor.bookData
+      return this.$store.state.Player.bookData
     },
     asset () {
-      return this.$store.state.Editor.currentEditData
+      return this.$store.state.Player.currentPlayData
     },
     playContext () {
       if (this.list.length > 0) {
@@ -34,14 +38,16 @@ export default {
       }
       return this.asset
     },
-    currentPage () {
-      if (this.playIdx === 0) {
-        return '封面'
-      }
-      if (this.playIdx === this.list.length - 1) {
-        return '封底'
-      }
-      return this.playIdx
+    bgMusic () {
+      let data = this.list[0]
+      let set = dataUtils.getHead(data)
+
+      return set ? set.bgMusic : {}
+    },
+    pageMusic () {
+      let set = dataUtils.getHead(this.asset)
+
+      return set ? set.music : {}
     }
   },
   watch: {
@@ -63,6 +69,48 @@ export default {
         // 渲染组件进画布
         Drawer.appendAsset(n)
       })
+    },
+    playIdx (n) {
+      if (this.$refs.pageMusic) {
+        this.$refs.pageMusic.pause()
+      }
+      this.$store.commit('setCurrentPlayPage', n)
+    },
+    bgMusic (n) {
+      let background = this.$refs.background
+      let self = this
+
+      if (!n || !n.resource) {
+        return false
+      }
+
+      background.addEventListener('timeupdate', function () {
+        if (background.currentTime * 1000 >= n.end) {
+          self.playSet(background, n)
+        }
+      })
+      background.src = n.resource
+      self.playSet(background, n)
+    },
+    pageMusic: {
+      deep: true,
+      handler (n) {
+        let pageMusic = this.$refs.pageMusic
+        let self = this
+
+        if (!n || !n.resource) {
+          this.intervalTask(5000)
+          return false
+        }
+        pageMusic.addEventListener('timeupdate', function () {
+          if (pageMusic.currentTime * 1000 >= n.end) {
+            pageMusic.pause()
+            self.setPage(1)
+          }
+        })
+        pageMusic.src = n.resource
+        self.playSet(pageMusic, n)
+      }
     }
   },
   methods: {
@@ -84,6 +132,21 @@ export default {
       script.type = 'text/javascript'
       script.src = url
       document.body.appendChild(script)
+    },
+    playSet (audio, options) {
+      audio.currentTime = options.start
+      audio.volume = options.volume / 100
+      audio.play()
+    },
+    intervalTask (delay = 3000) {
+      let task
+      let self = this
+
+      task = setInterval(function () {
+        clearInterval(task)
+        task = null
+        self.setPage(1)
+      }, delay)
     }
   },
   mounted () {
@@ -100,7 +163,7 @@ export default {
     })
 
     Listener.listen('BOOK', data => {
-      self.$store.commit('initBookData', data)
+      self.$store.commit('initBookDataOfPlayer', data)
     })
     this.loadScript()
   },
