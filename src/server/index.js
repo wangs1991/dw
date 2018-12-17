@@ -1,6 +1,6 @@
 import axios from 'axios'
 // import qs from 'qs'
-import Application from '../main'
+import {Application} from '../main'
 
 require('es6-promise').polyfill()
 

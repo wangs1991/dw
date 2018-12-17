@@ -89,7 +89,8 @@ export default {
 //      通知store关闭风格选择框
       this.$store.commit('updataStyleChooser')
       // 选中当前风格和系列数据
-      this.$store.commit('updateCurrentBookConfData', this.selectedStyle)
+      this.$store.commit('updateCurrentBookConfData', this.selectedSeries)
+      this.$router.replace({name: 'Drawer', query: {id: this.selectedSeries}})
     },
     selectedStyle () {
       // 根据选择的风格选择对应的系列

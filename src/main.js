@@ -25,7 +25,7 @@ Vue.use(Option)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-const Application = new Vue({
+export const Application = new Vue({
   el: '#app',
   router,
   store: Store,

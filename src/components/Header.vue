@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {fileTransfer} from '../assets/js/Utils'
+import {fileTransfer, generateId} from '../assets/js/Utils'
 import {uploadMeta} from '../server/actions'
 export default {
   name: 'v-header',
@@ -47,15 +47,13 @@ export default {
       // step.1: 上传文件
       var data = new FormData()
 
-      data.append('file', fileTransfer(this.publishData, 'json', false))
+      data.append('file', fileTransfer(this.publishData, 'json', false), generateId() + '.js')
       uploadMeta(data).then(res => {
         this.$store.commit('updateCurrentBookConfData', {
           dataPath: res
         })
         this.$store.commit('tooglePublish', true)
       }, true)
-
-      this.dwByFile()
     },
     dwByFile () {
       var a = document.createElement('a')

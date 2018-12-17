@@ -122,13 +122,11 @@
         </div>
       </li>
     </ul>
-    <operate :id="assetData.id"></operate>
   </div>
 </template>
 
 <script>
 import Bus from '../Bus'
-import Operate from './AssetOperate.vue'
 import VSelect from 'vue-select'
 import ColorPicker from './ColorPicker.vue'
 import inputSelect from '../inputs/input&select.vue'
@@ -329,7 +327,6 @@ export default {
     }
   },
   components: {
-    Operate,
     VSelect,
     inputSelect,
     ColorPicker

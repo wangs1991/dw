@@ -273,7 +273,8 @@ export const busEmiter = {
     ret = _self.assets[data.id]
 
     ret.content = data.text
-    $dom = Drawer.updataAsset('#' + ret.id + ' .asset-font__content', 'text', data.text, true)
+    $dom = $('#' + ret.id)
+    Drawer.updataAsset('#' + ret.id + ' .asset-font__content', 'text', data.text, true)
     // 获取现在文字容器的高度，给最外层容器
     ret.style.root.height = $dom.offset().height + 'px'
     $dom = null

@@ -104,7 +104,11 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             publishBook(this.bookForm).then(data => {
-              console.log(data)
+              this.$store.commit('tooglePublish', false)
+              this.resetForm('bookForm')
+              this.$router.push({
+                name: 'BookList'
+              })
             })
           } else {
             return false

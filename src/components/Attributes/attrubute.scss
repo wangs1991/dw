@@ -52,10 +52,14 @@ li{
   color: #f00;
 }
 
+.control-panle__container{
+  padding-top: 20px;
+}
 .control-panle__title{
   margin: 0;
   padding: 0 0 10px 0;
   border-bottom: 1px solid #ddd;
+  display: none;
 }
 //输入框选项列表样式
 .control-panel__attrs{
@@ -148,14 +152,16 @@ li{
 
 //公用的控制栏
 .operate-panel__main{
-  /*position: absolute;
-  z-index: 10;
-  bottom: 0;
+  position: absolute;
+  z-index: 1000;
+  top: 20px;
   left: 0;
-  right: 0;*/
-  border-top: 1px solid #ddd;
-  padding: 15px;
+  right: 0;
+  background: #fff;
   display: flex;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ececec;
   .operate-item__wraper{
     width: 25%;
     text-align: center;

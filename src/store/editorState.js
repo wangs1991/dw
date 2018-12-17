@@ -36,7 +36,7 @@ export const Editor = {
     editType: 0, // 当前编辑器编辑的类型 电子绘本: 0; 组件元素: 1
     currentEditData: {}, // 当前画布操作的数据
     // eslint-disable-next-line
-    bookData: [{"ROOT_ebafdcc3-7814-4ba4-bab7-36b59fba3825":{"id":"ROOT_ebafdcc3-7814-4ba4-bab7-36b59fba3825","type":0,"alisa":"ASSET_CONTAINER","previwer":"","template":"<div class='asset-continer__root'></div>","style":{"root":{"width":"400px","height":"400px","backgroundColor":"rgba(255, 255, 255, 0.5)","transform":"scaleX(1)","zIndex":1}},"prev":null,"next":null,"parent":null,"children":["ID_7d9c1bf1-1b1a-491a-90fd-370d2b53e60d","ID_57a1a77d-812a-4fa5-9fa6-9058e1301742","ID_23a65149-ab40-46cb-8111-d511a067e39c"],"bgMusic":{"resource":"http://47.104.24.77:8080/upload/img/1544857394507_1208小母鸡2.mp3","start":1000,"end":5000,"volume":100},"music":{"resource":"http://47.104.24.77:8080/upload/img/1544857399775_1208小母鸡2.mp3","start":1000,"end":5000,"volume":100}},"ID_7d9c1bf1-1b1a-491a-90fd-370d2b53e60d":{"id":"ID_7d9c1bf1-1b1a-491a-90fd-370d2b53e60d","type":1,"alisa":"ASSET_FONT","previwer":"","template":"<div class='asset-continer__root'>\n              <div class='asset-font__root'>\n                  <div class='asset-font__content'>双击修改文字</div>\n                </div>\n            </div>","content":"HELLO 番茄号","style":{"root":{"width":"100px","height":"18px","display":"inline-block","cursor":"move","position":"absolute","left":"135.21126760563382px","top":"281.13555908203125px","zIndex":3},"content":{"color":"#f00","fontFamily":"Microsoft YaHei UI","fontSize":"12px","lineHeight":"18px","letterSpacing":"0px","opacity":1}},"prev":null,"next":"ID_57a1a77d-812a-4fa5-9fa6-9058e1301742","parent":"ROOT_ebafdcc3-7814-4ba4-bab7-36b59fba3825","children":[]},"ID_57a1a77d-812a-4fa5-9fa6-9058e1301742":{"id":"ID_57a1a77d-812a-4fa5-9fa6-9058e1301742","type":2,"alisa":"ASSET_IMAGE","previwer":"","template":"<div class='asset-continer__root'>\n              <div class='asset-container__wraper'>\n                <div class='asset-image__root'>\n                  <div class='asset-image__content'>\n                    <img src='' alt='' style=\"width: 100%; display: block;\"/>\n                  </div>\n                </div>\n                </div>\n              </div>","content":"../../static/images/default_img.jpg","style":{"root":{"width":"118px","height":"85px","display":"inline-block","cursor":"move","position":"absolute","left":"65.64262282680458px","top":"251.16196753273547px","zIndex":2},"content":{"opacity":1}},"prev":"ID_7d9c1bf1-1b1a-491a-90fd-370d2b53e60d","next":"ID_23a65149-ab40-46cb-8111-d511a067e39c","parent":"ROOT_ebafdcc3-7814-4ba4-bab7-36b59fba3825","children":[]},"ID_23a65149-ab40-46cb-8111-d511a067e39c":{"id":"ID_23a65149-ab40-46cb-8111-d511a067e39c","type":3,"alisa":"ASSET_SHAPE","previwer":"","template":"<div class='asset-continer__root'>\n                <div class='asset-container__wraper'>\n                <div class='asset-shape__root'>\n                  <div class='asset-shape__content'></div>\n                </div>\n              </div>\n        </div>","style":{"root":{"display":"inline-block","cursor":"move","width":"200px","height":"200px","position":"absolute","left":"24.647887323943664px","top":"54.225352112676056px","zIndex":1},"content":{"width":"190px","height":"190px","opacity":1,"backgroundColor":"rgba(0, 0, 0, 0.5)","borderTopWidth":"5px","borderRightWidth":"5px","borderBottomWidth":"5px","borderLeftWidth":"5px","borderTopColor":"#f0f","borderRightColor":"#f0f","borderBottomColor":"#f0f","borderLeftColor":"#f0f","borderStyle":"solid","borderTopLeftRadius":"10px","borderTopRightRadius":"4px","borderBottomLeftRadius":"10px","borderBottomRightRadius":"10px"}},"prev":"ID_57a1a77d-812a-4fa5-9fa6-9058e1301742","next":null,"parent":"ROOT_ebafdcc3-7814-4ba4-bab7-36b59fba3825","children":[]}}], // 绘本书籍的数据 一般是一个集合 每个元素是一个对象，是当前页面的数据信息
+    bookData: [], // 绘本书籍的数据 一般是一个集合 每个元素是一个对象，是当前页面的数据信息
     attributeData: {}, // 属性面板空的组件属性对象
     canvasScale: 1, // 画布缩放的控制属性
     resizeStamp: '', // 窗体resize时通知底部地图的中间变量
@@ -57,6 +57,7 @@ export const Editor = {
     // 初始化书籍的参数
     initBookData (state, data) {
       state.bookData = data
+      this.commit('setCurrentEditData', data[0])
     },
     // 设置当前的编辑器编辑内容
     updateEditType (state, data = 0) {
@@ -95,9 +96,9 @@ export const Editor = {
       // eslint-disable-next-line
       delete(data.bgMusic)
 
-      state.bookData.push(data)
       data.id = ID
       ret[ID] = data
+      state.bookData.push(ret)
       this.commit('setCurrentEditData', ret)
     },
     // 更新页面改变大小的时间戳标记

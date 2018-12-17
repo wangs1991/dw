@@ -32,13 +32,11 @@
         </div>
       </li>
     </ul>
-    <operate :id="assetData.id"></operate>
   </div>
 </template>
 
 <script>
 import Bus from '../Bus'
-import Operate from './AssetOperate.vue'
 
 require('./attrubute.scss')
 export default {
@@ -93,9 +91,6 @@ export default {
         value: ret
       })
     }
-  },
-  components: {
-    Operate
   }
 }
 </script>

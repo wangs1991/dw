@@ -25,7 +25,7 @@
       <!--底部放大器控制区域以及全局地图拖拽-->
       <dw-zoomer></dw-zoomer>
     </div>
-    <style-chooser :styles="styles"></style-chooser>
+    <style-chooser v-if="isNeedChoose" :styles="styles"></style-chooser>
 
     <publish :isPublish="isPublish"></publish>
 
@@ -34,6 +34,7 @@
                     :styleString="dragePanle.appearance"
                     @close="closeAttr">
       <slot>
+        <operate :id="assetData.id"></operate>
         <component :is="AttrPanle"></component>
       </slot>
     </dragable-panle>
@@ -48,13 +49,15 @@ import DHeader from '../components/Header.vue'
 import Pagination from '../components/Pagination.vue'
 import DwZoomer from '../components/CanvasZoomer.vue'
 import DwCanvas from '../components/DrawerCanvas'
+import Operate from '../components/Attributes/AssetOperate.vue'
 import AttrCanvas from '../components/Attributes/AttrCanvas.vue'
 import AttrFont from '../components/Attributes/AttrFont.vue'
 import AttrImg from '../components/Attributes/AttrImg.vue'
 import AttrShape from '../components/Attributes/AttrShape.vue'
 import DragablePanle from '../components/dragable-panel'
 import Publish from '../pages/Publish'
-import {getStyles} from '../server/actions'
+import {getStyles, getBookDetail} from '../server/actions'
+import {Listener} from '../assets/js/Utils'
 
 export default {
   name: 'Drawer',
@@ -64,7 +67,8 @@ export default {
       dragePanle: {
         title: '属性设置',
         appearance: {left: '160px', top: '70px', width: '260px'}
-      }
+      },
+      isNeedChoose: true
     }
   },
   watch: {
@@ -107,12 +111,28 @@ export default {
   methods: {
     closeAttr () {
       this.$store.commit('setAttributeData', {})
+    },
+    //    获取绘本详情
+    getBookDetailById () {
+      let id = this.$route.query.id
+
+      this.isNeedChoose = false
+      getBookDetail({
+        id: id
+      }).then(data => {
+        let script = document.createElement('script')
+
+        script.type = 'text/javascript'
+        script.src = data.dataPath
+        document.body.appendChild(script)
+      })
     }
   },
   components: {
     StyleChooser,
     AssetsList,
     AssetsBaseList,
+    Operate,
     DwCanvas,
     DwZoomer,
     DHeader,
@@ -122,8 +142,19 @@ export default {
   },
   mounted () {
     let role = this.$route.query.role
+    let series = this.$route.query.id
+    let self = this
 
     this.$store.commit('updateLoginRole', role)
+
+    Listener.listen('BOOK', data => {
+      self.$store.commit('initBookData', data)
+    })
+//    如果存在id需要直接加载数据
+    if (series) {
+      this.getBookDetailById()
+      return false
+    }
 
     getStyles().then(data => {
       this.styles = data

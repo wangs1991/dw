@@ -13,6 +13,7 @@
 <script>
 import Drawer from '../assets/js/drawerTools'
 import dataUtils from '../assets/js/utils_mcdata'
+import {Listener} from '../assets/js/Utils'
 export default {
   data () {
     return {
@@ -75,9 +76,19 @@ export default {
         current = current > (this.list.length - 1) ? this.list.length - 1 : current
       }
       this.playIdx = current
+    },
+    loadScript () {
+      let url = this.$route.query.dataPath
+      let script = document.createElement('script')
+
+      script.type = 'text/javascript'
+      script.src = url
+      document.body.appendChild(script)
     }
   },
   mounted () {
+    let self = this
+
     Drawer.init({
       type: 'player',
       canvasSelector: '.player-screen__main',
@@ -87,6 +98,11 @@ export default {
     this.$nextTick(function () {
       this.playIdx = 0
     })
+
+    Listener.listen('BOOK', data => {
+      self.$store.commit('initBookData', data)
+    })
+    this.loadScript()
   },
   created () {
     let _self = this
@@ -135,6 +151,19 @@ export default {
     background: #fff;
     width: 400px;
     height: 400px;
+    *{
+      cursor: default!important;
+    }
+    .asset-font__content{
+      -webkit-touch-callout: initial;
+      -webkit-user-select: initial;
+      -khtml-user-select: initial;
+      -moz-user-select: initial;
+      -ms-user-select: initial;
+      user-select: initial;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
   }
 }
 </style>

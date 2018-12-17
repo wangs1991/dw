@@ -18,6 +18,16 @@ export const uploadMeta = data => {
   return post('/tomato/uploadImg', data)
 }
 
-export const getBookList = data => {
+export const getBookList = () => {
   return get('/tomato/all')
+}
+
+export const getBookDetail = data => {
+  return get('/tomato/query', {
+    params: data
+  }, true)
+}
+
+export const getConfig = url => {
+  return get(url, {}, true)
 }
