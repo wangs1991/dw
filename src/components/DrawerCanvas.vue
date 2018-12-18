@@ -45,7 +45,6 @@ export default {
       this.$store.commit('setCanvasScale', scale)
       this.$store.commit('refreshResizeStamp')
 
-      console.log(n)
       // 清空当前画布内容
       Drawer.clearCanvas()
       dataUtils.everyChild(n, this.root, n => {
@@ -62,34 +61,6 @@ export default {
       canvasSelector: '.drawer-canvas__root',
       windowSelector: '#editor-window'
     })
-
-    /* let _self = this
-    let canvas = assets[0] // 默认的画布配置
-
-    // 默认添加一个容器配置的数据
-    _self.root = generateId('ROOT_')
-    canvas.id = _self.root
-    dataUtils.push(this.assets, canvas, function (canvas) {
-      let scale
-      // 初始化绘本编辑器工具方法插件
-      Drawer.init({
-        type: 'editor',
-        watcher: Bus,
-        canvasSelector: '.drawer-canvas__root',
-        windowSelector: '#editor-window'
-      })
-
-      // 应用一下画布的样式
-      Drawer.updataAsset('.drawer-canvas__root', canvas.style.root, undefined, true)
-      scale = Drawer.update(_self.assets, _self.root)
-      _self.$store.commit('setCanvasScale', scale)
-    }, function (target, prev) {
-      prev && _self.$set(_self.assets, prev.id, prev)
-      _self.$set(_self.assets, target.id, target)
-      _self.$nextTick(() => {
-        _self.$store.commit('setAttributeData', target)
-      })
-    }) */
   },
   created () {
     let _self = this

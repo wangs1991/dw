@@ -76,6 +76,7 @@ export default {
       let role = n.query.role
 
       this.$store.commit('updateLoginRole', role)
+      this.initPage()
     }
   },
   computed: {
@@ -126,6 +127,19 @@ export default {
         script.src = data.dataPath
         document.body.appendChild(script)
       })
+    },
+    //    初始化页面
+    initPage () {
+      let series = this.$route.query.id
+
+      //    如果存在id需要直接加载数据
+      if (series) {
+        this.getBookDetailById()
+        return false
+      }
+      getStyles().then(data => {
+        this.styles = data
+      })
     }
   },
   components: {
@@ -142,7 +156,6 @@ export default {
   },
   mounted () {
     let role = this.$route.query.role
-    let series = this.$route.query.id
     let self = this
 
     this.$store.commit('updateLoginRole', role)
@@ -150,15 +163,8 @@ export default {
     Listener.listen('BOOK', data => {
       self.$store.commit('initBookData', data)
     })
-//    如果存在id需要直接加载数据
-    if (series) {
-      this.getBookDetailById()
-      return false
-    }
 
-    getStyles().then(data => {
-      this.styles = data
-    })
+    this.initPage()
   }
 }
 </script>

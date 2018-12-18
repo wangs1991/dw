@@ -12,8 +12,8 @@
          :key="idx">
       <span class="pagination-item__preview">
         <div class="pagination-operate__wraper">
-          <span class="pagination-operate__button" @click="delPage">删除</span>
-          <span class="pagination-operate__button" @click="copyPage">复制</span>
+          <span class="pagination-operate__button" @click.stop="delPage">删除{{current}} - {{idx}}</span>
+          <span class="pagination-operate__button" @click.stop="copyPage(idx)">复制</span>
         </div>
       </span>
       <div class="pagination-item__number">第 {{idx+1}} 页</div>
@@ -35,30 +35,30 @@
 export default{
   name: 'pagination',
   data () {
-    return {
-      current: 0
-    }
+    return { }
   },
   computed: {
     list () {
       return this.$store.state.Editor.bookData
+    },
+    current () {
+      return this.$store.state.Editor.page
     }
   },
   methods: {
     addPage () {
       this.$store.commit('appendPage')
       this.$nextTick(function () {
-        this.current = this.list.length - 1
+        this.$store.commit('setCurrentPage', this.list.length - 1)
       })
     },
     selectPage (n) {
       this.$nextTick(function () {
-        this.current = n
         this.$store.commit('setCurrentPage', n)
       })
     },
-    copyPage () {
-
+    copyPage (idx) {
+      this.$store.commit('insertPage', idx)
     },
     delPage () {
       this.$store.commit('deletePage')
@@ -103,10 +103,11 @@ export default{
         background: #fff;
         display: flex;
         .pagination-operate__button{
-          font-size: 14px;
+          font-size: 12px;
           line-height: 2em;
           cursor: pointer;
           text-align: center;
+          width: 50%;
         }
       }
     }

@@ -58,7 +58,7 @@ export const Editor = {
     // 初始化书籍的参数
     initBookData (state, data) {
       state.bookData = data
-      this.commit('setCurrentEditData', data[0])
+      this.commit('setCurrentPage', 0)
     },
     // 更新某一页的数据
     updatePageData (state, data = {page: 0, data: {}}) {
@@ -78,6 +78,11 @@ export const Editor = {
       page = page < 0 ? 0 : page
       state.bookData.splice(state.page, 1)
       this.commit('setCurrentEditData', page)
+    },
+    // 添加页面
+    insertPage (state, data = 0) {
+      state.bookData.splice(data, 0, _.cloneDeep(state.bookData[data]))
+      this.commit('setCurrentPage', ++data)
     },
     // 设置当前的编辑器编辑内容
     updateEditType (state, data = 0) {
@@ -119,7 +124,7 @@ export const Editor = {
       data.id = ID
       ret[ID] = data
       state.bookData.push(ret)
-      this.commit('setCurrentEditData', ret)
+      this.commit('setCurrentPage', state.bookData.length - 1)
     },
     // 更新页面改变大小的时间戳标记
     refreshResizeStamp (state) {
