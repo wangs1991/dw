@@ -1,14 +1,33 @@
 <template>
-  <div class="player-container__main">
-    <div class="player-control__main">
-      <div class="player-control__item" @click="setPage(-1)">&lt;</div>
-      <div class="player-control__progress">{{playIdx+1}} / {{list.length}}</div>
-      <div class="player-control__item" @click="setPage(1)">&gt;</div>
+  <div class="player-layout__main">
+    <div class="palyer-book__name">
+      {{bookName}}
+      <div class="user-action__ctner">
+        <div class="player-action__share" @click="share"></div>
+        <div class="player-acton__progress">{{playIdx+1}} / {{list.length}}</div>
+      </div>
     </div>
 
-    <audio ref="background" muted autoplay="true" data-id="background"></audio>
-    <audio ref="pageMusic" muted autoplay="true" data-id="pageMusic"></audio>
-    <div class="player-screen__main">
+    <div class="player-control__main">
+      <div class="player-control__item nav_prev" @click="setPage(-1)">&lt;</div>
+      <div class="player-control__item nav_next" @click="setPage(1)">&gt;</div>
+    </div>
+
+    <div class="player-container__main">
+      <audio ref="background" muted autoplay="true" data-id="background"></audio>
+      <audio ref="pageMusic" muted autoplay="true" data-id="pageMusic"></audio>
+      <div class="player-screen__main">
+      </div>
+    </div>
+
+    <div class="share-float__win" v-if="isShare" @click="hideShare">
+      <div class="share-float__content">
+        <div class="share-content__header">{{bookName}}</div>
+        <div class="share-content__body">
+          <canvas ref="canvas"></canvas>
+        </div>
+        <div class="share-content__footer">微信扫码观看</div>
+      </div>
     </div>
   </div>
 </template>
@@ -16,13 +35,19 @@
 <script>
 import Drawer from '../assets/js/drawerTools'
 import dataUtils from '../assets/js/utils_mcdata'
-import {Listener} from '../assets/js/Utils'
+import {Listener, loadScript} from '../assets/js/Utils'
+import {getBookDetail} from '../server/actions'
+import QRious from 'qrious'
+
+let task
 
 export default {
   data () {
     return {
       playIdx: '',
-      rootId: ''
+      rootId: '',
+      bookName: '',
+      isShare: false
     }
   },
   computed: {
@@ -98,14 +123,15 @@ export default {
         let pageMusic = this.$refs.pageMusic
         let self = this
 
-        if (!n || !n.resource) {
+        if (!n || !n.resource) { // 没有背景音乐定时切换
           this.intervalTask(5000)
           return false
         }
         pageMusic.addEventListener('timeupdate', function () {
           if (pageMusic.currentTime * 1000 >= n.end) {
             pageMusic.pause()
-            self.setPage(1)
+//            self.setPage(1)
+            self.intervalTask(1000)
           }
         })
         pageMusic.src = n.resource
@@ -125,13 +151,18 @@ export default {
       }
       this.playIdx = current
     },
-    loadScript () {
-      let url = this.$route.query.dataPath
-      let script = document.createElement('script')
+    loadData () {
+      let url = this.$route.query.data
+      let id = this.$route.query.id
 
-      script.type = 'text/javascript'
-      script.src = url
-      document.body.appendChild(script)
+      if (id) {
+        getBookDetail({
+          id: id
+        }).then(data => {
+          this.bookName = data.name
+        })
+      }
+      loadScript(url)
     },
     playSet (audio, options) {
       audio.currentTime = options.start
@@ -139,14 +170,30 @@ export default {
       audio.play()
     },
     intervalTask (delay = 3000) {
-      let task
       let self = this
 
+      clearInterval(task)
+      task = null
       task = setInterval(function () {
         clearInterval(task)
         task = null
         self.setPage(1)
       }, delay)
+    },
+    share () {
+      this.isShare = true
+      this.$nextTick(() => {
+        const code = new QRious({
+          element: this.$refs.canvas,
+          level: 'M'
+        })
+
+        code.value = window.location.href
+        code.size = 220
+      })
+    },
+    hideShare () {
+      this.isShare = false
     }
   },
   mounted () {
@@ -165,7 +212,7 @@ export default {
     Listener.listen('BOOK', data => {
       self.$store.commit('initBookDataOfPlayer', data)
     })
-    this.loadScript()
+    this.loadData()
   },
   created () {
     let _self = this
@@ -181,37 +228,135 @@ export default {
 </script>
 
 <style lang="scss">
-.player-container__main{
+.player-layout__main{
   position: relative;
   width: 100%;
   height: 100%;
   z-index: 1;
+  .player-container__main{
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 100px;
+    right: 100px;
+    z-index: 10;
+  }
+  .share-float__win{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, .8);
+    .share-float__content{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+      border-radius: 12px;
+      width: 300px;
+      margin: 0 auto;
+      padding: 15px 20px;
+      .share-content__header{
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      .share-content__body{
+        text-align: center;
+        padding-bottom: 20px;
+      }
+      .share-content__footer{
+        font-size: 12px;
+        color: #ababab;
+        text-align: center;
+
+      }
+    }
+  }
+  .palyer-book__name{
+    hegiht: 40px;
+    line-height: 40px;
+    font-size: 18px;
+    text-align: center;
+    background: rgba(0, 0, 0, .2);
+    color: #fff;
+    .user-action__ctner{
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 120px;
+      padding-right: 10px;
+      .player-action__share{
+        float: left;
+        width: 25px;
+        height: 25px;
+        background: #78e92b;
+        border-radius: 50%;
+        margin-top: 6px;
+        margin-right: 1px;
+        cursor: pointer;
+      }
+      .player-acton__progress{
+        float: left;
+        margin-top: 6px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 12px;
+        background: rgba(0, 0, 0, .3);
+        height: 25px;
+        line-height: 25px;
+        border-radius: 50px;
+      }
+    }
+  }
   .player-control__main{
     position: absolute;
-    z-index: 100;
-    width: 300px;
-    height: 30px;
+    z-index: 1;
+    width: 100%;
+    height: 150px;
     line-height: 30px;
-    background: rgba(0, 0, 0, .5);
     text-align: center;
-    bottom: 20px;
-    left: 50%;
-    margin-left: -150px;
-    border-radius: 100px;
-    display: flex;
+    top: 50%;
+    left: 0;
+    color: #fff;
+    margin-top: -75px;
     .player-control__item{
-      width: 33.33%;
+      font-size: 0;
+      width: 150px;
+      height: 150px;
+      border-radius: 100px;
+      background: rgba(0, 0, 0, .3);
       text-align: center;
       cursor: pointer;
-    }
-    .player-control__progress{
-      width: 33.33%;
+      position: absolute;
+      top: 0;
+      z-index: 10;
+      transition: all ease-in .1s;
+      &:hover{
+        background: rgba(0, 0, 0, .6);
+      }
+      &.nav_prev{
+        left: -120px;
+        &:hover{
+          left: -100px;
+        }
+      }
+      &.nav_next{
+        right: -120px;
+        &:hover{
+          right: -100px;
+        }
+      }
     }
   }
   .player-screen__main{
     position: absolute;
-    z-index: 10;
-    background: #fff;
+    z-index: 20;
+    top: 50px;
     width: 400px;
     height: 400px;
     *{

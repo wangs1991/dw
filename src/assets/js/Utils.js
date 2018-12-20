@@ -1,6 +1,6 @@
 let uuid = require('node-uuid')
 
-export const generateId = (prefix) => {
+export const generateId = (prefix = '') => {
   return prefix + uuid.v4()
 }
 
@@ -265,3 +265,16 @@ export const Listener = (function () {
   return window.Listener = Event;
 })();
 /* eslint-disable-end */
+
+export const loadScript = (function () {
+  let script
+
+  return url => {
+    if (!script) {
+      script = document.createElement('script')
+      script.type = 'text/javascript'
+      document.body.appendChild(script)
+    }
+    script.src = url
+  }
+})();

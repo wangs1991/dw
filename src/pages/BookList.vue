@@ -2,7 +2,7 @@
   <div class="container-main__block">
     <router-link class="btn-create" :to="{name: 'Drawer'}">创建绘本^_^</router-link>
     <ul class="book-list__ctner">
-      <router-link v-for="(item, idx) in bookList" :key="idx" :to="{name: 'Player', query: {dataPath: item.dataPath}}" target="_blank">
+      <router-link v-for="(item, idx) in bookList" :key="idx" :to="{name: 'Player', query: {id: item.id, data: item.dataPath}}" target="_blank">
         <li class="book-item__ctner" :data-id="item.id">
           <div class="book-item__cover">
             <img :src="item.cover" alt="">

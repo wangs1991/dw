@@ -173,6 +173,25 @@ export const Editor = {
         page: state.page,
         data: ret
       })
+    },
+    resetStore (state) {
+      state.bookData = []
+      state.currentEditData = {}
+      state.editType = 0
+      state.attributeData = {}
+      state.canvasScale = 1
+      state.styleChooserFlag = true
+      state.page = 0
+      state.bookBaseConfig = {
+        style: 0,
+        series: 0,
+        dataPath: ''
+      }
+      state.assetsSubState = 'close'
+      state.loginRole = 'common'
+      state.cacheData = {
+        pageTpl: {}
+      } // 全局数据缓存
     }
   },
   actions: {}

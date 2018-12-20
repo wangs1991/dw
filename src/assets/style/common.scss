@@ -1,6 +1,14 @@
 * {
 	font-family: '微软雅黑';
 }
+a,
+a:link,
+a:visited,
+a:hover{
+  text-decoration: none;
+  outline: none;
+  border: 0;
+}
 @mixin clear{
   &:after{
     content: '';
@@ -12,4 +20,16 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+//图表集合
+.theme-icon__back{
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+  background: #ddd;
+  position: relative;
+  top: 8px;
+  z-index: 1;
 }

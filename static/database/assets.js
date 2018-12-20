@@ -58,7 +58,7 @@ module.exports = [{
                 </div>
                 </div>
               </div>`, // html字符串
-        content: '../../static/images/default_img.jpg',
+        content: require('../../static/images/default_img.jpg'),
         style: {
           root: { // 限用属性【宽高、位置、边框、背景颜色】
             width: '118px',

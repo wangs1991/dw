@@ -8,7 +8,7 @@
           class="upload-editor"
           drag
           ref="uploader"
-          action="/tomato/uploadImg"
+          :action="uploadUrl"
           :show-file-list="false"
           :on-success="readImg">
           <i class="el-icon-upload"></i>
@@ -72,10 +72,13 @@ export default {
         }
         this.modifyStyle('opacity', v / 100)
       }
+    },
+    uploadUrl () {
+      return window.globalConfig.host + '/tomato/uploadImg'
     }
   },
   methods: {
-    readImg (response, file, fileList) { // 图片上传完获取图片信息
+    readImg (response) { // 图片上传完获取图片信息
       this.modifyStyle('src', response.data)
     },
     modifyStyle (key, value) {

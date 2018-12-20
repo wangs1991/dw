@@ -13,7 +13,7 @@
       <el-form-item label="封面" prop="cover">
         <el-upload
           class="avatar-uploader"
-          action="/tomato/uploadImg"
+          :action="uploadUrl"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
@@ -71,8 +71,8 @@
       }
     },
     computed: {
-      baseConfig () {
-        return this.$store.state.Editor.bookBaseConfig
+      uploadUrl () {
+        return window.globalConfig.host + '/tomato/uploadImg'
       }
     },
     watch: {

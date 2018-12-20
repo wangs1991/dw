@@ -12,7 +12,7 @@
          :key="idx">
       <span class="pagination-item__preview">
         <div class="pagination-operate__wraper">
-          <span class="pagination-operate__button" @click.stop="delPage">删除{{current}} - {{idx}}</span>
+          <span class="pagination-operate__button" @click.stop="delPage">删除</span>
           <span class="pagination-operate__button" @click.stop="copyPage(idx)">复制</span>
         </div>
       </span>
@@ -99,9 +99,11 @@ export default{
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 0;
+        bottom: -30px;
         background: #fff;
         display: flex;
+        opacity: 0;
+        transition: all ease .2s;
         .pagination-operate__button{
           font-size: 12px;
           line-height: 2em;
@@ -109,6 +111,10 @@ export default{
           text-align: center;
           width: 50%;
         }
+      }
+      &:hover .pagination-operate__wraper{
+        bottom: -1px;
+        opacity: 1;
       }
     }
     .pagination-item__number{

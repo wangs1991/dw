@@ -9,7 +9,7 @@
       <span class="music-item__ctr" @click="delResource">D</span>
       <span class="music-item__ctr">
         <el-upload
-          action="/tomato/uploadImg"
+          :action="uploadUrl"
           :before-upload="fileCheck"
           :on-success="refreshResource">
           <el-button size="medium " type="primary">R</el-button>
@@ -45,7 +45,7 @@
     </div>
     <div class="music-item__content" v-else>
       <el-upload
-        action="/tomato/uploadImg"
+        :action="uploadUrl"
         :before-upload="fileCheck"
         :show-file-list="false"
         :on-success="refreshResource">
@@ -83,6 +83,9 @@ export default {
       get () {
         return [this.musicSteper.max, this.musicSteper.min]
       }
+    },
+    uploadUrl () {
+      return window.globalConfig.host + '/tomato/uploadImg'
     }
   },
   watch: {

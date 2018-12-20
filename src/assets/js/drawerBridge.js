@@ -68,18 +68,32 @@ const Utils = {
   getElementRatio: (function () {
     let ratioCache = {}
 
-    return data => {
-      if (!ratioCache[data.id]) {
-        switch (data.alisa) {
-          case 'ASSET_IMAGE':
-            let offset
+    return (data, noChache) => {
+      return new Promise((resolve, reject) => {
+        if (noChache || !ratioCache[data.id]) {
+          switch (data.alisa) {
+            case 'ASSET_IMAGE':
+              let offset
+              let $img = $('#' + data.id + ' img')
 
-            offset = $('#' + data.id + ' img').offset()
-            ratioCache[data.id] = offset.width / offset.height
-            break
+              // 判断是否加载
+              if ($img[0].complete) {
+                offset = $img.offset()
+                ratioCache[data.id] = offset.width / offset.height
+                resolve(ratioCache[data.id])
+              } else {
+                $img[0].onload = function () {
+                  offset = $img.offset()
+                  ratioCache[data.id] = this.width / this.height
+                  resolve(ratioCache[data.id])
+                }
+              }
+              break
+          }
+        } else {
+          resolve(ratioCache[data.id])
         }
-      }
-      return ratioCache[data.id]
+      })
     }
   })()
 }
@@ -101,12 +115,16 @@ const ResizeHandler = {
     width = parseFloat(ret.style.root.width, 10)
     height = parseFloat(ret.style.root.height, 10)
     if (data.width) {
-      height = ret.style.root.height = width / Utils.getElementRatio(ret) + 'px'
-      Drawer.updataAsset('#' + ret.id, {'height': height + 'px'}, undefined, true)
+      Utils.getElementRatio(ret).then(data => {
+        height = ret.style.root.height = width / data + 'px'
+        Drawer.updataAsset('#' + ret.id, {'height': height + 'px'}, undefined, true)
+      })
     }
     if (data.height) {
-      width = ret.style.root.width = height * Utils.getElementRatio(ret) + 'px'
-      Drawer.updataAsset('#' + ret.id, {'width': width + 'px'}, undefined, true)
+      Utils.getElementRatio(ret).then(data => {
+        width = ret.style.root.width = height * data + 'px'
+        Drawer.updataAsset('#' + ret.id, {'width': width + 'px'}, undefined, true)
+      })
     }
   },
   ASSET_SHAPE (data, ret) {
@@ -438,8 +456,19 @@ export const busEmiter = {
       let copy = _.cloneDeep(_self.assets[data.id])
 
       if (data.key === 'src') {
+        let width
+        let height
+
         copy.content = data.value
         Drawer.updataAsset('#' + data.id + ' .asset-image__content', 'src', data.value, true)
+        // 借助工具方法获取图片的tatio，保证容器按照一定的宽高比进行缩放
+        width = parseFloat(copy.style.root.width, 10)
+        height = parseFloat(copy.style.root.height, 10)
+
+        Utils.getElementRatio(copy, true).then(data => {
+          height = copy.style.root.height = width / data + 'px'
+          Drawer.updataAsset('#' + copy.id, {'height': height + 'px'}, undefined, true)
+        })
       } else {
         copy.style.content[data.key] = data.value
         Drawer.updataAsset('#' + data.id + ' .asset-image__content', data.key, data.value, true)

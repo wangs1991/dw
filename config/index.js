@@ -21,11 +21,12 @@ module.exports = {
     },
     config:{
       version: '1.0.0',
+      host: ''
       // host: 'http://47.104.24.77:8080'
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
     port: 8099, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
@@ -62,11 +63,11 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/dist/',
 
     config:{
       version: '1.0.0',
-      // host: 'http://47.104.24.77:8080'
+      host: 'http://47.104.24.77:8088'
     },
 
     /**

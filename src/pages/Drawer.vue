@@ -45,10 +45,10 @@
 import StyleChooser from '../components/style-chooser'
 import AssetsList from '../components/AssetsList.vue'
 import AssetsBaseList from '../components/AssetsBaseList.vue'
-import DHeader from '../components/Header.vue'
+import DHeader from '../components/Editor/Header.vue'
 import Pagination from '../components/Pagination.vue'
-import DwZoomer from '../components/CanvasZoomer.vue'
-import DwCanvas from '../components/DrawerCanvas'
+import DwZoomer from '../components/Editor/CanvasZoomer.vue'
+import DwCanvas from '../components/Editor/DrawerCanvas'
 import Operate from '../components/Attributes/AssetOperate.vue'
 import AttrCanvas from '../components/Attributes/AttrCanvas.vue'
 import AttrFont from '../components/Attributes/AttrFont.vue'
@@ -57,7 +57,7 @@ import AttrShape from '../components/Attributes/AttrShape.vue'
 import DragablePanle from '../components/dragable-panel'
 import Publish from '../pages/Publish'
 import {getStyles, getBookDetail} from '../server/actions'
-import {Listener} from '../assets/js/Utils'
+import {Listener, loadScript} from '../assets/js/Utils'
 
 export default {
   name: 'Drawer',
@@ -121,11 +121,7 @@ export default {
       getBookDetail({
         id: id
       }).then(data => {
-        let script = document.createElement('script')
-
-        script.type = 'text/javascript'
-        script.src = data.dataPath
-        document.body.appendChild(script)
+        loadScript(data.dataPath)
       })
     },
     //    初始化页面
@@ -165,14 +161,17 @@ export default {
     })
 
     this.initPage()
+  },
+  beforeDestroy () {
+    this.$store.commit('resetStore')
   }
 }
 </script>
 
 <style lang="scss">
-  $header_height: 55px;
-  $pager_width: 140px;
-  $assets_width: 80px;
+  $header_height: 62px;
+  $pager_width: 194px;
+  $assets_width: 97px;
 
   .container-drawer__main {
     width: 100%;
