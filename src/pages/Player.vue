@@ -151,7 +151,12 @@ export default {
     },
     loadData () {
       let id = this.$route.query.id
+      let data = this.$route.query.data
 
+      if (data) {
+        loadScript(data.dataPath)
+        return false
+      }
       if (id) {
         getBookDetail({
           id: id

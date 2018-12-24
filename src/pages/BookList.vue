@@ -10,11 +10,13 @@
         </el-input>
       </div>
       <div class="page-books__types">
-        <span class="page-type__item">全部</span>
-        <span class="page-type__item">中国古代</span>
-        <span class="page-type__item">卡通动漫</span>
-        <span class="page-type__item">经典绘本</span>
-        <span class="page-type__item">大卫系列</span>
+        <span class="page-type__item"
+              :class="{'active': type === item.id}"
+              v-for="(item, idx) in typeList"
+              @click="selecteType(item)"
+              :key="idx">
+          {{item.label}}
+        </span>
       </div>
     </div>
 
@@ -35,7 +37,35 @@ export default {
   data () {
     return {
       bookName: '',
-      bookList: []
+      type: 0,
+      bookList: [],
+      typeList: [
+        {
+          id: 0,
+          label: '全部'
+        },
+        {
+          id: 1,
+          label: '中国古代'
+        },
+        {
+          id: 2,
+          label: '卡通动漫'
+        },
+        {
+          id: 3,
+          label: '经典绘本'
+        },
+        {
+          id: 4,
+          label: '大卫系列'
+        }
+      ]
+    }
+  },
+  methods: {
+    selecteType (item) {
+      this.type = item.id
     }
   },
   components: {
