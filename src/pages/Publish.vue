@@ -1,16 +1,22 @@
 <template>
-  <el-dialog
-    class="dialog-style-publish"
-    :title="dialogTitle"
-    :top="'6vh'"
-    :visible.sync="isPublish"
-    :show-close="true"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    width="820px"
-    center>
-    <el-form :model="bookForm" :rules="rules" ref="bookForm" label-width="100px">
-      <el-form-item label="封面" prop="cover">
+  <el-form :model="bookForm"
+           :rules="rules"
+           :class="'publish-form'"
+           ref="bookForm"
+           label-width="100px">
+    <div class="panel-lyt-clear">
+      <div class="panel-lyt__left">
+        <el-form-item label="绘本书名" prop="name">
+          <el-input v-model="bookForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="作者" prop="author">
+          <el-input type="input" v-model="bookForm.author"></el-input>
+        </el-form-item>
+        <el-form-item label="标签" prop="describeInfo">
+          <el-input type="input" v-model="bookForm.describeInfo"></el-input>
+        </el-form-item>
+      </div>
+      <div class="panel-lyt__right">
         <el-upload
           class="avatar-uploader"
           :action="uploadUrl"
@@ -20,19 +26,13 @@
           <img v-if="bookForm.cover" :src="bookForm.cover" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-      </el-form-item>
-      <el-form-item label="绘本书名" prop="name">
-        <el-input v-model="bookForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="简介信息" prop="describeInfo">
-        <el-input type="textarea" v-model="bookForm.describeInfo"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('bookForm')">立即创建</el-button>
-        <!--<el-button @click="resetForm('bookForm')">重置</el-button>-->
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+      </div>
+    </div>
+    <div class="publish-tips">绘本分享后，您可以通过私有链接发送给朋友们。</div>
+    <div class="publish-block">
+      <el-button type="primary" :class="'btn-pusblish'" @click="submitForm('bookForm')">立即创建</el-button>
+    </div>
+  </el-form>
 </template>
 
 <script>
@@ -41,10 +41,10 @@
     name: 'Publish',
     data () {
       return {
-        dialogTitle: '发布设置',
         bookForm: {
           cover: '', // 绘本封面路径
           name: '', // 绘本名字
+          author: '',
           dataPath: '', // 数据配置文件的连接地址
           describeInfo: '', // 描述信息
           custom: '', // 自定义的风格
@@ -62,12 +62,6 @@
             {required: true, message: '请输入简介信息', trigger: 'blur'}
           ]
         }
-      }
-    },
-    props: {
-      isPublish: {
-        type: Boolean,
-        default: false
       }
     },
     computed: {
@@ -123,35 +117,83 @@
 </script>
 
 <style lang="scss">
-  .dialog-style-publish{
-    width: 100%;
-    background: rgba(255, 255, 255, 1);
-    .el-dialog--center{
-      background: transparent;
-      box-shadow: none;
+  @import "../assets/style/common";
+
+  .publish-form{
+    .panel-lyt-clear{
+      @include clear();
     }
-  }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
+    .panel-lyt__left,
+    .panel-lyt__right{
+      float: left;
+    }
+    .panel-lyt__left{
+      width: 260px;
+      padding-right: 40px;
+    }
+    .panel-lyt__right{
+      width: 210px;
+    }
+    .publish-tips{
+      text-align: center;
+      font-size: 14px;
+      color: #8A8B93;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+    .avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .el-form-item{
+      margin-bottom: 15px;
+      .el-form-item__label{
+        float: none;
+        font-size: 14px;
+        color: #101010;
+        line-height: 18px;
+      }
+      .el-form-item__content{
+        margin-left: 0!important;
+        input{
+          border: 0;
+          border-radius: 0;
+          border-bottom: 1px solid #BBBBBB;
+          font-size: 16px;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    }
+    .publish-block{
+      text-align: center;
+      .btn-pusblish{
+        width: 186px;
+        height: 50px;
+        border-radius: 4px;
+        background: #F2575C;
+        border: 0;
+        font-size: 20px;
+      }
+    }
+    .avatar-uploader .el-upload:hover {
+      border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 210px;
+      height: 138px;
+      line-height: 138px;
+      text-align: center;
+    }
+    .avatar {
+      width: 210px;
+      height: 138px;
+      display: block;
+    }
   }
 </style>

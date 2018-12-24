@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import assets from '../../static/database/assets.js'
-import Bus from '../components/Bus'
+import assets from '../../../static/database/assets.js'
+import Bus from '../Bus'
 // import dataUtils from '../assets/js/utils_mcdata'
 
 export default {

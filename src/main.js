@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import Store from './store/index'
 import router from './router'
-import {Slider, Upload, Popover, Button, Dialog, Tooltip, InputNumber, Form, FormItem, Input, Select, Option} from 'element-ui'
+import {Slider, Upload, Popover, Button, Dialog, Tooltip, InputNumber, Form, FormItem, Input, Select, Option, Tabs, TabPane} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 require('es6-promise').polyfill()
@@ -21,6 +21,8 @@ Vue.use(FormItem)
 Vue.use(Input)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Tabs)
+Vue.use(TabPane)
 
 Vue.config.productionTip = false
 

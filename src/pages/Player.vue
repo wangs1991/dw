@@ -1,11 +1,7 @@
 <template>
   <div class="player-layout__main">
-    <div class="palyer-book__name">
-      {{bookName}}
-      <div class="user-action__ctner">
-        <div class="player-action__share" @click="share"></div>
-        <div class="player-acton__progress">{{playIdx+1}} / {{list.length}}</div>
-      </div>
+    <div class="player-header__wraper">
+      <PlayHeader></PlayHeader>
     </div>
 
     <div class="player-control__main">
@@ -20,6 +16,7 @@
       </div>
     </div>
 
+    <!--分享弹框-->
     <div class="share-float__win" v-if="isShare" @click="hideShare">
       <div class="share-float__content">
         <div class="share-content__header">{{bookName}}</div>
@@ -39,6 +36,7 @@ import {Listener, loadScript} from '../assets/js/Utils'
 import {getBookDetail} from '../server/actions'
 import QRious from 'qrious'
 
+import PlayHeader from '../components/Player/Header.vue'
 let task
 
 export default {
@@ -196,6 +194,9 @@ export default {
       this.isShare = false
     }
   },
+  components: {
+    PlayHeader
+  },
   mounted () {
     let self = this
 
@@ -228,14 +229,21 @@ export default {
 </script>
 
 <style lang="scss">
+  $header_height: 65px;
 .player-layout__main{
   position: relative;
   width: 100%;
   height: 100%;
   z-index: 1;
+  background: #63656F;
+  .player-header__wraper{
+    height: $header_height;
+    background: #fff;
+    padding: 0 20px;
+  }
   .player-container__main{
     position: absolute;
-    top: 50px;
+    top: $header_height;
     bottom: 0;
     left: 100px;
     right: 100px;
@@ -277,42 +285,6 @@ export default {
       }
     }
   }
-  .palyer-book__name{
-    hegiht: 40px;
-    line-height: 40px;
-    font-size: 18px;
-    text-align: center;
-    background: rgba(0, 0, 0, .2);
-    color: #fff;
-    .user-action__ctner{
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 120px;
-      padding-right: 10px;
-      .player-action__share{
-        float: left;
-        width: 25px;
-        height: 25px;
-        background: #78e92b;
-        border-radius: 50%;
-        margin-top: 6px;
-        margin-right: 1px;
-        cursor: pointer;
-      }
-      .player-acton__progress{
-        float: left;
-        margin-top: 6px;
-        padding-left: 20px;
-        padding-right: 20px;
-        font-size: 12px;
-        background: rgba(0, 0, 0, .3);
-        height: 25px;
-        line-height: 25px;
-        border-radius: 50px;
-      }
-    }
-  }
   .player-control__main{
     position: absolute;
     z-index: 1;
@@ -326,9 +298,9 @@ export default {
     margin-top: -75px;
     .player-control__item{
       font-size: 0;
-      width: 150px;
-      height: 150px;
-      border-radius: 100px;
+      width: 85px;
+      height: 190px;
+      border-radius: 50% / 50%;
       background: rgba(0, 0, 0, .3);
       text-align: center;
       cursor: pointer;
@@ -340,16 +312,10 @@ export default {
         background: rgba(0, 0, 0, .6);
       }
       &.nav_prev{
-        left: -120px;
-        &:hover{
-          left: -100px;
-        }
+        left: -40px;
       }
       &.nav_next{
-        right: -120px;
-        &:hover{
-          right: -100px;
-        }
+        right: -40px;
       }
     }
   }

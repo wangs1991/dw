@@ -6,6 +6,14 @@
     </div>
     <!--页面列表-->
     <div class="pager-container__main" :class="{'disabled': editType === 1}">
+      <div class="pagination-switcher__wraper">
+        <div class="pagination-switcher__item active">
+          页面
+        </div>
+        <div class="pagination-switcher__item">
+          图层
+        </div>
+      </div>
       <pagination></pagination>
     </div>
     <!--左侧组件列表，仅在管理员制作模板时显示-->
@@ -27,8 +35,7 @@
     </div>
     <style-chooser v-if="isNeedChoose" :styles="styles"></style-chooser>
 
-    <publish :isPublish="isPublish"></publish>
-
+    <!--拖拽的容器-->
     <dragable-panle :title="dragePanle.title"
                     :isPoped="isPopedShow"
                     :styleString="dragePanle.appearance"
@@ -38,15 +45,30 @@
         <component :is="AttrPanle"></component>
       </slot>
     </dragable-panle>
+
+    <!--弹框显示的数据-->
+    <el-dialog
+      class="dialog-style-popup"
+      :title="dialog.title"
+      :top="dialog.top"
+      :visible.sync="dialog.show"
+      :show-close="true"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :width="dialog.width"
+      center>
+      <component :is="dialog.component"></component>
+    </el-dialog>
+    <!--<publish :isPublish="isPublish"></publish>-->
   </div>
 </template>
 
 <script>
 import StyleChooser from '../components/style-chooser'
-import AssetsList from '../components/AssetsList.vue'
-import AssetsBaseList from '../components/AssetsBaseList.vue'
+import AssetsList from '../components/Editor/AssetsList.vue'
+import AssetsBaseList from '../components/Editor/AssetsBaseList.vue'
 import DHeader from '../components/Editor/Header.vue'
-import Pagination from '../components/Pagination.vue'
+import Pagination from '../components/Editor/Pagination.vue'
 import DwZoomer from '../components/Editor/CanvasZoomer.vue'
 import DwCanvas from '../components/Editor/DrawerCanvas'
 import Operate from '../components/Attributes/AssetOperate.vue'
@@ -66,17 +88,39 @@ export default {
       styles: [],
       dragePanle: {
         title: '属性设置',
-        appearance: {left: '160px', top: '70px', width: '260px'}
+        appearance: {left: '210px', top: '75px', width: '260px'}
       },
-      isNeedChoose: true
+      isNeedChoose: true,
+      dialog: {
+        component: null,
+        show: false,
+        title: '',
+        width: '600px',
+        top: '6vh'
+      }
     }
   },
   watch: {
     '$route' (n) {
       let role = n.query.role
+      let type = n.query.type
 
-      this.$store.commit('updateLoginRole', role)
-      this.initPage()
+      if (type) {
+        switch (type) {
+          case 'publish':
+            this.dialog.show = true
+            this.dialog.title = '发布绘本'
+            this.dialog.component = Publish
+            break
+          case 'preview':
+            this.dialog.tyitle = '发布绘本'
+//            this.dialog.component = Play
+            break
+        }
+      } else {
+        this.initPage()
+      }
+      role && this.$store.commit('updateLoginRole', role)
     }
   },
   computed: {
@@ -147,8 +191,7 @@ export default {
     DwZoomer,
     DHeader,
     Pagination,
-    DragablePanle,
-    Publish
+    DragablePanle
   },
   mounted () {
     let role = this.$route.query.role
@@ -169,6 +212,7 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '../assets/style/common';
   $header_height: 62px;
   $pager_width: 194px;
   $assets_width: 97px;
@@ -189,6 +233,7 @@ export default {
 
   .pager-container__main {
     width: $pager_width;
+    border-top: 1px solid #E3E3E3;
     position: absolute;
     z-index: 100;
     background: #fff;
@@ -198,6 +243,26 @@ export default {
     transition: all ease .2s;
     &.disabled{
       left: -$pager_width
+    }
+
+    .pagination-switcher__wraper{
+      @include clear();
+      border-bottom: 1px solid #BBBBBB;
+      background: #E3E3E3;
+      .pagination-switcher__item{
+        float: left;
+        width: 50%;
+        height: 50px;
+        background: #E3E3E3;
+        color: #8A8B93;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+        &.active{
+          background: #fff;
+          color: #EB5648;
+        }
+      }
     }
   }
   .baseAsets-container__main{
@@ -219,6 +284,7 @@ export default {
     top: $header_height;
     bottom: 0;
     right: 0;
+    border-top: 1px solid #E3E3E3;
     &.disabled{
       &:before{
         content: ' ';
@@ -246,12 +312,34 @@ export default {
   }
 
   #editor-window {
-    border: 1px solid #f00;
+    background: #F7F3F3;
     position: absolute;
     z-index: 1;
     left: $pager_width;
     right: $assets_width;
     top: 0;
     bottom: 55px;
+  }
+
+  /*公用的弹框*/
+  .dialog-style-popup{
+    width: 100%;
+    background: #63656F;
+    .el-dialog--center{
+      background: transparent;
+      box-shadow: none;
+      background: #fff;
+      border-radius: 8px;
+      padding: 23px 20px;
+    }
+    /*#101010 100%*/
+    .el-dialog__header{
+      padding: 0;
+      font-size: 20px;
+      color: #101010;
+    }
+    .el-dialog__body{
+      padding-top: 40px;
+    }
   }
 </style>

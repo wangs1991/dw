@@ -8,6 +8,7 @@ a:hover{
   text-decoration: none;
   outline: none;
   border: 0;
+  color: inherit;
 }
 @mixin clear{
   &:after{
@@ -22,6 +23,16 @@ a:hover{
   overflow: hidden;
 }
 
+@mixin block() {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1240px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 //图表集合
 .theme-icon__back{
   display: inline-block;
@@ -29,7 +40,34 @@ a:hover{
   height: 30px;
   margin-right: 6px;
   background: #ddd;
-  position: relative;
-  top: 8px;
-  z-index: 1;
+  vertical-align: middle;
 }
+//按钮集合
+.pub-button__emphasize{
+  background: #EB5648;
+  color: #fff;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  display: inline-block;
+  padding: 15px 40px;
+  font-size: inherit;
+  line-height: 1em;
+}
+//区块容器
+.lyt-block__wraper{
+  @include block;
+}
+//图文2列混排
+.lyt-cols2__wraper{
+  @include clear();
+  .lyt-image__left{
+    float: left;
+    width: 683px;
+  }
+  .lyt-text__right{
+    margin-left: 683px;
+    overflow: hidden;
+  }
+}
+

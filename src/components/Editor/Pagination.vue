@@ -15,13 +15,14 @@
           <span class="pagination-operate__button" @click.stop="delPage">删除</span>
           <span class="pagination-operate__button" @click.stop="copyPage(idx)">复制</span>
         </div>
+        <div class="pagination-item__number">{{idx+1}}</div>
       </span>
-      <div class="pagination-item__number">第 {{idx+1}} 页</div>
     </div>
 
-    <div class="pagination-item__pager" @click="addPage">
-      <span class="pagination-item__preview"></span>
-      <div class="pagination-item__number">点击新增</div>
+    <div class="pagination-add__wraper"
+         @click="addPage">
+      <span class="pagination-add__icon"></span>
+      <div class="pagination-item__label">新建页面</div>
     </div>
 
     <!--<div class="pagination-item__pager" :class="{active: current === list.length - 1}" @click="selectPage(list.length - 1)">
@@ -72,7 +73,9 @@ export default{
 
 <style lang="scss">
 .pagination-panel__wraper{
-  padding: 10px;
+  padding: 10px 0;
+  height: 100%;
+  overflow: auto;
   /*position: absolute;
   z-index: 10000;
   left: 120px;
@@ -81,21 +84,24 @@ export default{
   overflow: auto;
   border-top: 1px solid #ddd;*/
   .pagination-item__pager{
-    margin: 10px 5px;
+    margin: 7px 0;
+    padding: 0 10px;
     &:hover .pagination-item__preview,
     &.active .pagination-item__preview {
-      background: #f00;
-      transform: scale(1.1);
+      .pagination-item__number{
+        color: #EB5648;
+      }
     }
-    .pagination-item__preview{
+    .pagination-item__preview {
       display: block;
-      height: 55px;
+      width: 152px;
+      height: 93px;
       background: #ddd;
       margin-bottom: 10px;
-      border-radius: 2px;
-      box-shadow: 0 0 3px rgba(0, 0, 0, .2);
       position: relative;
-      .pagination-operate__wraper{
+      left: 19px;
+      cursor: pointer;
+      .pagination-operate__wraper {
         position: absolute;
         left: 0;
         right: 0;
@@ -104,7 +110,7 @@ export default{
         display: flex;
         opacity: 0;
         transition: all ease .2s;
-        .pagination-operate__button{
+        .pagination-operate__button {
           font-size: 12px;
           line-height: 2em;
           cursor: pointer;
@@ -112,14 +118,39 @@ export default{
           width: 50%;
         }
       }
-      &:hover .pagination-operate__wraper{
+      &:hover .pagination-operate__wraper {
         bottom: -1px;
         opacity: 1;
       }
+      .pagination-item__number{
+        font-size: 10px;
+        text-align: center;
+        position: absolute;
+        left: -20px;
+        top: 5px;
+        font-size: 16px;
+        color: #101010;
+      }
     }
-    .pagination-item__number{
-      font-size: 10px;
-      text-align: center;
+  }
+  .pagination-add__wraper{
+    margin-top: 18px;
+    border-top: 1px solid #BBBBBB;
+    text-align: center;
+    padding: 14px 5px;
+    font-size: 14px;
+    color: #8A8B93;
+    cursor: pointer;
+    .pagination-add__icon{
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: #f00;
+    }
+    .pagination-item__label{
+      display: inline-block;
+      vertical-align: top;
+      line-height: 24px;
     }
   }
 }

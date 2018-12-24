@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import assets from '../../static/database/assets.js'
-import Bus from '../components/Bus'
+import assets from '../../../static/database/assets.js'
+import Bus from '../Bus'
 // import dataUtils from '../assets/js/utils_mcdata'
 
 export default {
@@ -39,27 +39,27 @@ export default {
       types: [{
         id: 't1',
         name: '背景',
-        icon: require('../../static/images/avator-robot.png')
+        icon: require('../../../static/images/avator-robot.png')
       }, {
         id: 't2',
         name: '文字',
-        icon: require('../../static/images/avator-robot.png')
+        icon: require('../../../static/images/avator-robot.png')
       }, {
         id: 't3',
         name: '人物',
-        icon: require('../../static/images/avator-robot.png')
+        icon: require('../../../static/images/avator-robot.png')
       }, {
         id: 't4',
         name: '道具',
-        icon: require('../../static/images/avator-robot.png')
+        icon: require('../../../static/images/avator-robot.png')
       }, {
         id: 't5',
         name: '声音',
-        icon: require('../../static/images/avator-robot.png')
+        icon: require('../../../static/images/avator-robot.png')
       }, {
         id: 'tm',
         name: '我的',
-        icon: require('../../static/images/avator-robot.png')
+        icon: require('../../../static/images/avator-robot.png')
       }]
     }
   },
@@ -141,27 +141,26 @@ export default {
 
   .menu-assets__list{
     position: absolute;
-    padding-top: 3px;
     z-index: 10;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     overflow-x: hidden;
-    background: #efefef;
+    background: #fff;
   }
 
   .menu-children__list{
-    border-top: 3px solid #ddd;
+    border-top: 1px solid #e3e3e3;
     padding: 20px;
     position: absolute;
     z-index: 8;
     width: 160px;
     left: 0;
     bottom: 0;
-    top: 0;
+    top: -1px;
     overflow: auto;
-    background: #fff;
+    background: #F6F7F8;
     transition:  all ease .2s;
     &.state-opend{
       left: -200px;
@@ -179,6 +178,8 @@ export default {
       line-height: 60px;
       color: #666;
       font-weight: bold;
+
+      cursor: pointer;
     }
     .menu-item__preview{
       width: 100%;
@@ -213,9 +214,9 @@ export default {
       margin-top: -14px;
     }
     &.isActive{
-      background: #fff;
+      background: #F6F7F8;
       &:before{
-        background-color: #3a8ee6;
+        background-color: #EB5648;
       }
     }
   }

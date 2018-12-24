@@ -317,13 +317,18 @@ Drawer.prototype = {
 
     this.canvas.delegate('.asset-continer__root', 'mousedown', function (e) {
       e.stopPropagation()
-      e.preventDefault()
       // 校准事件对象一定在root元素上
       if ($(e.target).hasClass('asset-continer__root')) {
         $assets = $(e.target)
       } else {
         $assets = $(e.target).closest('.asset-continer__root') // 最近一级匹配父级元素
       }
+
+      // 文字的不能阻止默认事件，否则无法选中了
+      if ($assets.find('.asset-font__content').length < 1) {
+        e.preventDefault()
+      }
+
       // 获取当前状态下画布的边界值和当前操作元素的边界信息
       domBodundary = $assets.offset()
 

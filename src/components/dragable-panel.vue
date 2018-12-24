@@ -106,9 +106,10 @@ export default {
     box-shadow: 0 0 5px rgba(0, 0, 0, .3);
     overflow: hidden;
     .control-container__header {
-      background: #cdcdcd;
+      background: #F6F7F8;
       cursor: move;
       font-size: 8px;
+      color: #555;
       height: 20px;
       line-height: 20px;
       padding-left: 5px;
@@ -125,6 +126,7 @@ export default {
         text-align: center;
         cursor: pointer;
         font-style: normal;
+        color: #555;
       }
     }
     .control-container__body {

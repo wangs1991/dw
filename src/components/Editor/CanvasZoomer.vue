@@ -48,7 +48,7 @@
 <script>
 import Drawer from '../../assets/js/drawerTools'
 import DragablePanle from '../dragable-panel'
-import MusicItem from '../AudioItem.vue'
+import MusicItem from './AudioItem.vue'
 import dataUtils from '../../assets/js/utils_mcdata'
 
 const numReg = /([\d]*)%/
@@ -221,20 +221,21 @@ export default {
     position: absolute;
     z-index: 2;
     bottom: 80px;
-    left: 160px;
+    left: 210px;
     right: 160px;
     .zoomer-panel__btns{
-      background: rgba(0, 0, 0, .5);
-      height: 30px;
-      line-height: 30px;
+      background: #fff;
+      height: 35px;
+      line-height: 35px;
       width: 360px;
       padding-left: 20px;
       padding-right: 20px;
-      border-radius: 100px;
+      border-radius: 2px;
       overflow: hidden;
       margin: 0 auto;
-      color: #fff;
       font-size: 12px;
+      box-shadow: 0 0 6px rgba(0, 0, 0, .1);
+      color: #525E71;
       [class^='zoomer-item']{
         float: left;
         width: 60px;
@@ -248,7 +249,7 @@ export default {
           background: transparent;
           display: block;
           width: 100%;
-          line-height: 28px;
+          line-height: 33px;
           text-align: center;
           color: inherit;
           font-size: inherit;

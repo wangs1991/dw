@@ -17,14 +17,18 @@
             <i class="theme-icons theme-icon__redo"></i>
             <div class="theme-icon__label">外观设置</div>
           </div>
-          <div class="header-item__link">
+          <div class="header-item__link" @click="previewBook">
             <i class="theme-icons theme-icon__combine"></i>
             <div class="theme-icon__label">预览</div>
+          </div>
+          <div class="header-item__link" @click="publishBook">
+            <i class="theme-icons theme-icon__combine"></i>
+            <div class="theme-icon__label">发布</div>
           </div>
         </div>
         <!--左侧功能区-->
         <div class="header-func__left">
-          <div class="header-item__link" @click="publishBook">
+          <div class="header-item__link">
             <i class="theme-icons theme-icon__save"></i>
             <div class="theme-icon__label">保存</div>
           </div>
@@ -86,16 +90,28 @@ export default {
     showStyleChooser () {
       this.$store.commit('updataStyleChooser', true)
     },
-    publishBook () {
+    asyncData () {
       // step.1: 上传文件
       var data = new FormData()
 
       data.append('file', fileTransfer(this.publishData, 'json', false), generateId() + '.js')
-      uploadMeta(data).then(res => {
+      return uploadMeta(data)
+    },
+    publishBook () {
+      this.asyncData().then(res => {
         this.$store.commit('updateCurrentBookConfData', {
           dataPath: res
         })
-        this.$store.commit('tooglePublish', true)
+//        this.$store.commit('tooglePublish', true)
+        let query = _.cloneDeep(this.$route.query)
+
+        query.type = 'publish'
+        this.$router.push({name: 'Drawer', query: query})
+      }, true)
+    },
+    previewBook () {
+      this.asyncData().then(res => {
+        window.open('#/player?data=' + res)
       }, true)
     },
     dwByFile () {
@@ -133,6 +149,7 @@ export default {
       left: 194px;
       right: 97px;
       .header-panel__wraper{
+        @include clear();
         margin-left: -10px;
         header-func__left{
           float: left;
@@ -171,7 +188,7 @@ export default {
           .theme-icon__label{
             width: 100%;
             text-align: center;
-            font-size: 10px;
+            font-size: 12px;
             color: #595656;
             line-height: 18px;
           }
@@ -179,11 +196,12 @@ export default {
       }
     }
     .header-panel__switcher{
-      width: 80px;
+      width: 97px;
+      height: 62px;
       float: right;
-      background: #efefef;
+      background: #fff;
       .header-panel__swBtn{
-        height: 40px;
+        height: 45px;
         border-radius: 5px;
         margin: 8px 10px;
         background: #fff;

@@ -173,7 +173,7 @@ export default {
   .asset-continer__root:active,
   .asset-continer__root.active,
   .asset-continer__root.asset_selected{
-    outline: 1px dashed #f00;
+    outline: 1px dashed #EB5648;
   }
   /*宽高鼠标样式改变元素即 事件处理有效区域*/
   /*通用样式*/
@@ -221,12 +221,11 @@ export default {
     &:after{
       width: 8px;
       height: 8px;
-      background: #000;
-      border-radius: 10px;
+      background: #fff;
       top: 50%;
       margin-top: -5px;
       cursor: col-resize;
-      border: 1px solid #f00;
+      border: 1px solid #EB5648;
     }
     &:after{
       right: -5px;
@@ -240,10 +239,9 @@ export default {
     &:after{
       width: 8px;
       height: 8px;
-      background: #000;
-      border-radius: 10px;
+      background: #fff;
       margin-top: -5px;
-      border: 1px solid #f00;
+      border: 1px solid #EB5648;
     }
     &:before{
       top: 50%;
