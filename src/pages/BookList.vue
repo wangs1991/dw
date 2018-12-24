@@ -1,29 +1,46 @@
 <template>
-  <div class="container-main__block">
-    <router-link class="btn-create" :to="{name: 'Drawer'}">创建绘本^_^</router-link>
-    <ul class="book-list__ctner">
-      <router-link v-for="(item, idx) in bookList" :key="idx" :to="{name: 'Player', query: {id: item.id, data: item.dataPath}}" target="_blank">
-        <li class="book-item__ctner" :data-id="item.id">
-          <div class="book-item__cover">
-            <img :src="item.cover" alt="">
-          </div>
-          <div class="book-item__name">
-            {{item.name}}
-          </div>
-        </li>
-      </router-link>
-    </ul>
+  <div class="page-books__container">
+    <!--头部导航-->
+    <BaseHeader/>
+
+    <div class="lyt-block__wraper">
+      <div class="page-books__search">
+        <el-input placeholder="请输入内容" v-model="bookName" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+      </div>
+      <div class="page-books__types">
+        <span class="page-type__item">全部</span>
+        <span class="page-type__item">中国古代</span>
+        <span class="page-type__item">卡通动漫</span>
+        <span class="page-type__item">经典绘本</span>
+        <span class="page-type__item">大卫系列</span>
+      </div>
+    </div>
+
+    <!--绘本列表-->
+    <div class="lyt-block__wraper">
+      <BookList :books="bookList" :allowEdit="true"></BookList>
+    </div>
   </div>
 </template>
 
 <script>
+import BaseHeader from '../components/BaseHeader.vue'
+import BookList from '../components/BookList.vue'
+
 import {getBookList} from '../server/actions'
 export default {
-  name: 'BookList',
+  name: 'SiftList',
   data () {
     return {
+      bookName: '',
       bookList: []
     }
+  },
+  components: {
+    BaseHeader,
+    BookList
   },
   created () {
     this.$nextTick(() => {
@@ -37,48 +54,23 @@ export default {
 
 <style lang="scss">
   @import '../assets/style/common';
-  .container-main__block{
-    box-sizing: border-box;
-    width: 980px;
-    margin: 20px auto 20px;
-    height: 100%;
-    overflow: auto;
-    padding-bottom: 10px;
-    .btn-create{
-      display: block;
-      text-align: center;
-      margin-bottom: 15px;
-      background: rgba(255, 255, 255, .5);
-      border-radius: 5px;
-      margin-left: 10px;
-      margin-right: 10px;
-      line-height: 45px;
-      &:hover{
-        background: rgba(255, 255, 255, 1);
-      }
-    }
+  .page-books__search{
+    width: 450px;
+    margin: 0 auto 45px;
   }
-  .book-list__ctner{
-    @include clear();
-    .book-item__ctner{
-      width: 25%;
-      float: left;
-      box-sizing: border-box;
-      padding: 0 10px;
-      margin-bottom: 20px;
-      .book-item__cover{
-        width: 100%;
-        height: 0;
-        padding-bottom: 100%;
-        overflow: hidden;
-        img{
-          display: block;
-          width: 100%;
-        }
-      }
-      .book-item__name{
-        font-size: 16px;
-        margin-top: 10px;
+  .page-books__types{
+    text-align: center;
+    font-size: 0;
+    .page-type__item{
+      display: inline-block;
+      font-size: 16px;
+      color: #6A6C8A;
+      margin-left: 16px;
+      margin-right: 16px;
+      cursor: pointer;
+      &.active,
+      &:hover{
+        color: #EB5648;
       }
     }
   }

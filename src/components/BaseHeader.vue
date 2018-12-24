@@ -1,15 +1,16 @@
 <template>
   <div class="lyt-header__wraper">
-    <div class="header-ele__logo">
-      番茄号
-    </div>
+      <router-link :to="{name: 'Index'}">
+        <div class="header-ele__logo">番茄号</div>
+      </router-link>
 
     <div class="header-ele__links">
       <a class="header-link__anchor" href="">下载</a>
       <a class="header-link__anchor" href="">创作教程</a>
       <a class="header-link__anchor" href="">创作社区</a>
       <a class="header-link__anchor" href="">绘本分发</a>
-      <a class="header-link__anchor" href="">精选绘本</a>
+      <router-link class="header-link__anchor"
+                   :to="{name: 'BookList'}">精选绘本</router-link>
       <a class="header-link__button" href="">加入番茄号</a>
     </div>
   </div>

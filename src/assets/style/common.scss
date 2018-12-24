@@ -54,6 +54,25 @@ a:hover{
   font-size: inherit;
   line-height: 1em;
 }
+.pub-button__normal{
+  background: transparent;
+  color: #EB5648;
+  border: 1px solid #EB5648;
+  outline: 0;
+  cursor: pointer;
+  display: inline-block;
+  padding: 15px 40px;
+  font-size: inherit;
+  line-height: 1em;
+  &.size-mini{
+    padding: 8px 20px;
+    font-size: 80%;
+  }
+  &:hover{
+    background: #EB5648;
+    color: #fff;
+  }
+}
 //区块容器
 .lyt-block__wraper{
   @include block;

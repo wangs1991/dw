@@ -150,7 +150,6 @@ export default {
       this.playIdx = current
     },
     loadData () {
-      let url = this.$route.query.data
       let id = this.$route.query.id
 
       if (id) {
@@ -158,9 +157,9 @@ export default {
           id: id
         }).then(data => {
           this.bookName = data.name
+          loadScript(data.dataPath)
         })
       }
-      loadScript(url)
     },
     playSet (audio, options) {
       audio.currentTime = options.start
