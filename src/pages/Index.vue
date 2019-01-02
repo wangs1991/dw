@@ -21,7 +21,7 @@
 
       <ul class="home-features__main">
         <li v-for="(item, idx) in mainInfo.features" :key="idx">
-          <i :style="{'background-image': 'url('+ item.cover +')'}"
+          <i :style="{'background-image': 'url('+ item.icon +')'}"
              class="feature-item__icon"
              :title="item.slogan"></i>
           <h2 class="feature-item__title">{{item.slogan}}</h2>
@@ -120,15 +120,15 @@ export default {
         slogan: '绘本创作  就选番茄号',
         description: '教育在改变，番茄号为您的教育注入创新与智能</br>绘本创作.交互课件制作.教学资源创作，就用番茄号',
         features: [{
-          icon: require('../../static/images/avator-robot.png'),
+          icon: require('../assets/images/feature-1.png'),
           slogan: '绘本创作更简单',
           description: '强大素材库，AI智能配音、抠图，<br/>无需绘画基础，每个家长朋友都可以<br/>为孩子创作绘本'
         }, {
-          icon: require('../../static/images/avator-robot.png'),
+          icon: require('../assets/images/feature-2.png'),
           slogan: '全阶段教学资源更丰富',
           description: '2016年国家提倡去小学化幼儿园教学改革<br/>绘本教学，游戏教学，活动教学为3大教学模式<br/>每个教师都可以创造更丰富个性的教学资源'
         }, {
-          icon: require('../../static/images/avator-robot.png'),
+          icon: require('../assets/images/feature-3.png'),
           slogan: '绘本发售标准化',
           description: '一键发布到亚马逊，当当，京东<br/>绘本出版社定期签售优质绘本<br/>激励国内绘本作家，促进原创绘本行业发展<br/>每位绘本作家都能发售原创绘本'
         }]
@@ -295,9 +295,10 @@ export default {
             width: 91px;
             height: 91px;
             margin: 0 auto;
-            -webkit-background-size: contain;
-            background-size: contain;
-            background: #f00;
+            -webkit-background-size: 80% auto;
+            background-size: 80% auto;
+            background-repeat: no-repeat;
+            background-position: center center;
           }
           .feature-item__title{
             font-size: 18px;

@@ -10,19 +10,19 @@
         <!--右侧功能区-->
         <div class="header-func__right">
           <div class="header-item__link">
-            <i class="theme-icons theme-icon__undo"></i>
+            <i class="theme-icons theme-icon__storage"></i>
             <div class="theme-icon__label">素材库</div>
           </div>
           <div class="header-item__link">
-            <i class="theme-icons theme-icon__redo"></i>
+            <i class="theme-icons theme-icon__setting"></i>
             <div class="theme-icon__label">外观设置</div>
           </div>
           <div class="header-item__link" @click="previewBook">
-            <i class="theme-icons theme-icon__combine"></i>
+            <i class="theme-icons theme-icon__preview"></i>
             <div class="theme-icon__label">预览</div>
           </div>
           <div class="header-item__link" @click="publishBook">
-            <i class="theme-icons theme-icon__combine"></i>
+            <i class="theme-icons theme-icon__publish"></i>
             <div class="theme-icon__label">发布</div>
           </div>
         </div>
@@ -45,7 +45,7 @@
             <div class="theme-icon__label">组合</div>
           </div>
           <div class="header-item__link">
-            <i class="theme-icons theme-icon__save"></i>
+            <i class="theme-icons theme-icon__break"></i>
             <div class="theme-icon__label">打散</div>
           </div>
           <div class="header-item__link">
@@ -183,7 +183,14 @@ export default {
             display: inline-block;
             width: 24px;
             height: 24px;
-            background: #f0f;
+            text-align: center;
+            line-height: 24px;
+            font-size: 22px;
+            /*font-weight: bold;*/
+            /*background: #f0f;*/
+            &:hover{
+              color: #EB5648;
+            }
           }
           .theme-icon__label{
             width: 100%;

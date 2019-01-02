@@ -85,7 +85,11 @@ export default {
       }
     },
     uploadUrl () {
-      return window.globalConfig.host + '/tomato/uploadImg'
+      if (window.globalConfig.env !== 'development') {
+        return window.globalConfig.host + '/tomato/uploadImg'
+      } else {
+        return '/tomato/uploadImg'
+      }
     }
   },
   watch: {

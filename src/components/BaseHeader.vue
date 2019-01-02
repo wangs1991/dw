@@ -11,10 +11,32 @@
       <a class="header-link__anchor" href="">绘本分发</a>
       <router-link class="header-link__anchor"
                    :to="{name: 'BookList'}">精选绘本</router-link>
-      <a class="header-link__button" href="">加入番茄号</a>
+      <router-link class="header-link__button"
+                   :to="{name: ''}"
+                   v-if="udata && udata.name">进入工作台</router-link>
+      <a class="header-link__button"
+         href="javascript: void(0);"
+         @click="register"
+         v-else>加入番茄号</a>
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    name: 'BaseHeader',
+    computed: {
+      udata () {
+        return this.$store.state.userData
+      }
+    },
+    methods: {
+      async register () {
+        console.log(this.$register())
+      }
+    }
+  }
+</script>
 
 <style lang="scss">
   @import '../assets/style/common';

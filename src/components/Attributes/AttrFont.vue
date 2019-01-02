@@ -28,37 +28,37 @@
 
     <div class="control-text__group">
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-bold"
+        <i class="theme-icons ic-txt-bold"
            :class="{active: styleContent.fontWeight === 'bold'}"
            @click="modifyStyle('fontWeight')"></i>
       </div>
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-italic"
+        <i class="theme-icons ic-txt-italic"
            :class="{active: styleContent.fontStyle === 'italic'}"
            @click="modifyStyle('fontStyle')"></i>
       </div>
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-unline"
+        <i class="theme-icons ic-txt-unline"
            :class="{active: styleContent.textDecoration === 'underline'}"
            @click="modifyStyle('textDecoration', 'underline')"></i>
       </div>
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-del"
+        <i class="theme-icons ic-txt-del"
            :class="{active: styleContent.textDecoration === 'line-through'}"
            @click="modifyStyle('textDecoration', 'line-through')"></i>
       </div>
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-left"
+        <i class="theme-icons ic-txt-left"
            :class="{active: styleContent.textAlign === 'left'}"
            @click="modifyStyle('textAlign', 'left')"></i>
       </div>
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-center"
+        <i class="theme-icons ic-txt-center"
            :class="{active: styleContent.textAlign === 'center'}"
            @click="modifyStyle('textAlign', 'center')"></i>
       </div>
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-right"
+        <i class="theme-icons ic-txt-right"
            :class="{active: styleContent.textAlign === 'right'}"
            @click="modifyStyle('textAlign', 'right')"></i>
       </div>

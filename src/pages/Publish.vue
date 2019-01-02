@@ -66,16 +66,14 @@
     },
     computed: {
       uploadUrl () {
-        return window.globalConfig.host + '/tomato/uploadImg'
-      }
-    },
-    watch: {
-      baseConfig: {
-        deep: true,
-        handler (n) {
-          this.bookForm.dataPath = n.dataPath
-          this.bookForm.custom = n.style
+        if (window.globalConfig.env !== 'development') {
+          return window.globalConfig.host + '/tomato/uploadImg'
+        } else {
+          return '/tomato/uploadImg'
         }
+      },
+      bookBaseConfig () {
+        return this.$store.state.Editor.bookBaseConfig
       }
     },
     methods: {
@@ -112,6 +110,12 @@
       resetForm (formName) {
         this.$refs[formName].resetFields()
       }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        this.bookForm.dataPath = this.bookBaseConfig.dataPath
+        this.bookForm.custom = this.bookBaseConfig.style
+      })
     }
   }
 </script>

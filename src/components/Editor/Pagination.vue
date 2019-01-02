@@ -21,14 +21,9 @@
 
     <div class="pagination-add__wraper"
          @click="addPage">
-      <span class="pagination-add__icon"></span>
+      <span class="theme-icons theme-icon__append"></span>
       <div class="pagination-item__label">新建页面</div>
     </div>
-
-    <!--<div class="pagination-item__pager" :class="{active: current === list.length - 1}" @click="selectPage(list.length - 1)">
-      <span class="pagination-item__preview"></span>
-      <div class="pagination-item__number">封底</div>
-    </div>-->
   </div>
 </template>
 
@@ -141,7 +136,7 @@ export default{
     font-size: 14px;
     color: #8A8B93;
     cursor: pointer;
-    .pagination-add__icon{
+    .theme-icon__append{
       display: inline-block;
       width: 24px;
       height: 24px;

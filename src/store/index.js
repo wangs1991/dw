@@ -8,11 +8,17 @@ Vue.use(Vuex)
 /* eslint-disable */
 export default new Vuex.Store({
   state: {
-    isLoading: false
+    isLoading: false,
+    userData: {}
   },
   mutations: {
     loading (state, data = false) {
       state.isLoading = data
+    },
+    cacheUser (state, data = {}) {
+      debugger
+      state.userData.id = data.id
+      state.userData.name = data.name
     }
   },
   actions: {},

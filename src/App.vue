@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <router-view/>
+    <!-- Put it at the end of App.vue -->
+    <dialogs-wrapper wrapper-name="default" />
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  export default {
+    name: 'App'
+  }
 </script>
 
 <style>

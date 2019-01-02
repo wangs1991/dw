@@ -1,5 +1,13 @@
 import {get, post} from './index'
 
+export const register = (data = {}) => {
+  return post('/user/register', data, true)
+}
+
+export const login = (data = {}) => {
+  return post('/user/login', data, true)
+}
+
 export const getStyles = () => {
   return get('/tomato/allCustoms', {}, true)
 }

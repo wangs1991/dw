@@ -18,11 +18,25 @@ module.exports = {
           '^/tomato': '/tomato'
         }
       },
+      '/user': {
+        target: 'http://47.104.24.77:8088',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/user': '/user'
+        }
+      },
+      '/tomato/uploadImg': {
+        target: 'http://47.104.24.77',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/tomato/uploadImg': '/tomato/uploadImg'
+        }
+      }
     },
     config:{
       version: '1.0.0',
-      host: ''
-      // host: 'http://47.104.24.77:8080'
+      host: 'http://47.104.24.77',
+      env: 'development'
     },
 
     // Various Dev Server settings
@@ -67,7 +81,8 @@ module.exports = {
 
     config:{
       version: '1.0.0',
-      host: 'http://47.104.24.77:8088'
+      host: 'http://47.104.24.77',
+      env: 'product'
     },
 
     /**

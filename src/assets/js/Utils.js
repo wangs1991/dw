@@ -1,9 +1,11 @@
 let uuid = require('node-uuid')
 
+// 前台唯一id生成函数
 export const generateId = (prefix = '') => {
   return prefix + uuid.v4()
 }
 
+// localstorage数据存取
 export const Storage = {
   get (key, del) {
     var ret = false
@@ -64,6 +66,7 @@ export const Storage = {
   }
 }
 
+// 文件转化喻户僧城
 export const fileTransfer = (() => {
   // 定义文件转换操作
   const transferCmds = {
@@ -266,6 +269,7 @@ export const Listener = (function () {
 })();
 /* eslint-disable-end */
 
+// 单例模式加载js脚本
 export const loadScript = (function () {
   let script
 
@@ -278,3 +282,27 @@ export const loadScript = (function () {
     script.src = url
   }
 })();
+
+export const IsPC = () => {
+  var userAgentInfo = navigator.userAgent,
+    Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'],
+    flag = true,
+    v = 0;
+
+  for (v = 0; v < Agents.length; v++) {
+    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+      flag = false;
+      break;
+    }
+  }
+  return flag;
+}
+
+// 移动端判断方法
+export const platform = () => {
+  // 移动端
+  if (document.body.clientWidth <= 750 || !IsPC()) {
+    return 'mobile'
+  }
+  return 'pc'
+}

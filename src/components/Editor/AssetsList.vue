@@ -6,8 +6,8 @@
           @click="openSublist(item.id)"
           :class="{'isActive': item.id === currentType}"
           :key="item.id">
-        <i class="type-icon"
-           :style="{'background-image': 'url('+ item.icon +')'}"></i>
+        <i class="type-icon theme-icons"
+           :class="item.className"></i>
         {{item.name}}
       </li>
     </ul>
@@ -37,29 +37,33 @@ export default {
     return {
       currentType: '',
       types: [{
-        id: 't1',
+        id: 'scene',
+        name: '场景',
+        className: 'theme-icon__scene'
+      }, {
+        id: 'background',
         name: '背景',
-        icon: require('../../../static/images/avator-robot.png')
+        className: 'theme-icon__background'
       }, {
-        id: 't2',
-        name: '文字',
-        icon: require('../../../static/images/avator-robot.png')
-      }, {
-        id: 't3',
+        id: 'figure',
         name: '人物',
-        icon: require('../../../static/images/avator-robot.png')
+        className: 'theme-icon__figure'
       }, {
-        id: 't4',
+        id: 'fonts',
+        name: '文字',
+        className: 'theme-icon__font'
+      }, {
+        id: 'tools',
         name: '道具',
-        icon: require('../../../static/images/avator-robot.png')
+        className: 'theme-icon__tool'
       }, {
-        id: 't5',
+        id: 'voice',
         name: '声音',
-        icon: require('../../../static/images/avator-robot.png')
+        className: 'theme-icon__voice'
       }, {
-        id: 'tm',
+        id: 'mine',
         name: '我的',
-        icon: require('../../../static/images/avator-robot.png')
+        className: 'theme-icon__mine'
       }]
     }
   },
@@ -193,15 +197,17 @@ export default {
     text-align: center;
     padding: 14px 0 10px;
     i.type-icon{
+      position: relative;
+      left: -2px;
       display: block;
       width: 35px;
       height: 35px;
+      font-size: 35px;
+      text-align: center;
+      line-height: 35px;
       margin-bottom: 8px;
       margin-left: auto;
       margin-right: auto;
-      background-repeat: no-repeat;
-      -webkit-background-size: cover;
-      background-size: cover;
     }
     &:before{
       content: ' ';

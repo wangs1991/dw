@@ -530,16 +530,13 @@ Drawer.prototype = {
     ch = parseFloat(canvas.height, 10)
 
     if (cw / ch >= ratio) { // 如果内容很宽
-      if (cw <= bodyBoundary.width) { // 宽度比容器小那么宽度就设置成和容器一样大
-        this.scale = bodyBoundary.width / cw
-      } else { // 如果宽度大于容器宽度，就把高度拉成和容器一样
-        this.scale = (bodyBoundary.height - 60) / ch
-      }
+      this.scale = bodyBoundary.width / cw
     } else { // 如果内容很高
-      this.scale = (bodyBoundary.height - 60) / ch
+      this.scale = bodyBoundary.height / ch
     }
     this.scale = this.scale.toFixed(2)
-    return (this.scale = Math.min(this.scale, 2))
+    return this.scale
+    // return (this.scale = Math.min(this.scale, 2))
   },
   computeScaledStyle (data, scale) {
     let ret = {}

@@ -5,7 +5,21 @@
         <div class="coop-title">
           合作平台
         </div>
-        <div class="coop-content__item"></div>
+        <div class="coop-content__item">
+          <img :src="require('../assets/images/logo-zhihu.png')" alt="">
+        </div>
+        <div class="coop-content__item">
+          <img :src="require('../assets/images/logo-toutiao.png')" alt="">
+        </div>
+        <div class="coop-content__item">
+          <img :src="require('../assets/images/logo-dangdang.png')" alt="">
+        </div>
+        <div class="coop-content__item">
+          <img :src="require('../assets/images/logo-douban.png')" alt="">
+        </div>
+        <div class="coop-content__item">
+          <img :src="require('../assets/images/logo-amazone.png')" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -38,15 +52,19 @@
       @include clear();
       .coop-title{
         float: left;
-        margin-left: -90px;
         line-height: 60px;
       }
       .coop-content__item{
-        margin-left: 60px;
-        margin-right: 60px;
+        float: left;
         width: 60px;
         height: 60px;
-        background: #dedede;
+        margin-left: 30px;
+        margin-right: 30px;
+
+        img{
+          display: block;
+          max-width: 100%;
+        }
       }
     }
   }

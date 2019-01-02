@@ -14,16 +14,26 @@ axios.defaults.responseType = 'json'
 // 返回状态截获
 axios.interceptors.response.use((res) => {
   // return Promise.reject(res)
+  if (res.data.code === 101) {
+    Application.$message({
+      message: res.data.msg,
+      type: 'error'
+    })
+    return Promise.reject(res.data)
+  }
   return Promise.resolve(res.data)
 }, (error) => {
-  alert('网络错误')
+  Application.$message({
+    message: '网络错误',
+    type: 'error'
+  })
   return Promise.reject(error)
 })
 
 // ajax 返回结果处理方法
 export const get = (function () {
   return function (url, params = {}, isSilence = false) {
-    if (window.globalConfig.host) {
+    if (window.globalConfig.host && window.globalConfig.env !== 'development') {
       url = window.globalConfig.host + url
     }
 
@@ -55,7 +65,7 @@ export const get = (function () {
 
 export const post = (function () {
   return function (url, params = {}, isSilence = false) {
-    if (window.globalConfig.host) {
+    if (window.globalConfig.host && window.globalConfig.env !== 'development') {
       url = window.globalConfig.host + url
     }
 

@@ -4,8 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import Store from './store/index'
 import router from './router'
-import {Slider, Upload, Popover, Button, Dialog, Tooltip, InputNumber, Form, FormItem, Input, Select, Option, Tabs, TabPane} from 'element-ui'
+import {Slider, Upload, Popover, Button, Dialog, Tooltip, InputNumber, Form, FormItem, Input, Select, Option, Tabs, TabPane, Message} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/style/fonts.scss'
+
+import './components/dialogs/index'
 
 require('es6-promise').polyfill()
 
@@ -23,6 +26,7 @@ Vue.use(Select)
 Vue.use(Option)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.prototype.$message = Message
 
 Vue.config.productionTip = false
 

@@ -8,10 +8,10 @@
     <div class="pager-container__main" :class="{'disabled': editType === 1}">
       <div class="pagination-switcher__wraper">
         <div class="pagination-switcher__item active">
-          页面
+          <div class="theme-icons theme-icon__page"></div>
         </div>
         <div class="pagination-switcher__item">
-          图层
+          <div class="theme-icons theme-icon__sheet"></div>
         </div>
       </div>
       <pagination></pagination>
@@ -218,6 +218,8 @@ export default {
   $assets_width: 97px;
 
   .container-drawer__main {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -305,10 +307,11 @@ export default {
     z-index: 1;
     outline: 1px solid #f00;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 62px);
     top: $header_height;
     left: 0;
     right: 0;
+    overflow: hidden;
   }
 
   #editor-window {

@@ -33,15 +33,6 @@ a:hover{
   margin-right: auto;
 }
 
-//图表集合
-.theme-icon__back{
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin-right: 6px;
-  background: #ddd;
-  vertical-align: middle;
-}
 //按钮集合
 .pub-button__emphasize{
   background: #EB5648;
@@ -90,3 +81,13 @@ a:hover{
   }
 }
 
+//公用弹框样式
+.dialog-common__cover{
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 300;
+  background: #63656F;
+}
