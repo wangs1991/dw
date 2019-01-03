@@ -7,7 +7,9 @@
       <div class="player-header__title">
         {{bookName}}
       </div>
-      <div class="player-header__share"  @click="share"></div>
+      <div class="player-header__share"  @click="share">
+        <i class="theme-icons theme-icon__share"></i>
+      </div>
     </div>
 
     <div class="player-container__main">
@@ -19,7 +21,10 @@
 
     <div class="player-container__footer">
       <div class="player-pager__ctner">{{playIdx + 1}}/{{list.length}}</div>
-      <button class="player-play__btn" @click="play"></button>
+      <button class="player-play__btn" @click="play">
+        <i class="theme-icons theme-icon__bookPlay"
+           :class="{'theme-icon__bookStop': autoPlay}"></i>
+      </button>
     </div>
 
   </div>
@@ -40,7 +45,7 @@ export default {
       playIdx: '',
       rootId: '',
       bookName: '',
-      autoPlay: true
+      autoPlay: false
     }
   },
   computed: {
@@ -154,11 +159,11 @@ export default {
     intervalTask (delay = 3000) {
       let self = this
 
+      clearInterval(task)
+      task = null
       if (!this.autoPlay) {
         return false
       }
-      clearInterval(task)
-      task = null
       task = setInterval(function () {
         clearInterval(task)
         task = null
@@ -166,8 +171,12 @@ export default {
       }, delay)
     },
     play () {
-      this.autoplay = !this.autoplay
-      this.startPlay()
+      this.autoPlay = !this.autoPlay
+      if (this.autoPlay) {
+        this.startPlay()
+      } else {
+        this.stopPlay()
+      }
     },
     startPlay () {
       let pageMusic = this.$refs.pageMusic
@@ -190,6 +199,9 @@ export default {
       })
       pageMusic.src = this.pageMusic.resource
       self.playSet(pageMusic, this.pageMusic)
+    },
+    stopPlay () {
+      this.intervalTask()
     },
     share () {
       this.$share(this.bookName)
@@ -258,7 +270,8 @@ export default {
       .player-header__share{
         width: 33px;
         height: 24px;
-        background: #f00;
+        text-align: center;
+        line-height: 24px;
       }
     }
     .player-container__main{
@@ -305,12 +318,18 @@ export default {
         color: #101010;
       }
       .player-play__btn{
+        color: #101010;
         display: inline-block;
         width: 42px;
         height: 42px;
-        background: #f00;
+        text-align: center;
+        line-height: 42px;
         border: 0;
         outline: 0;
+        background: transparent;
+        .theme-icons{
+          font-size: 30px;
+        }
       }
     }
   }

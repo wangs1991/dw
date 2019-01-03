@@ -5,14 +5,22 @@
       <div class="music-item__warn">{{text.label}}</div>
     </div>
     <div class="music-item__controler" v-show="item && item.resource">
-      <span class="music-item__ctr" @click="palyeMusic">P</span>
-      <span class="music-item__ctr" @click="delResource">D</span>
+      <span class="music-item__ctr"
+            @click="palyeMusic">
+        <i class="theme-icons theme-icon__mplay"
+           :class="{'theme-icon__mstop': isPlaying}"></i>
+      </span>
+      <span class="music-item__ctr" @click="delResource">
+        <i class="theme-icons theme-icon__mdelete"></i>
+      </span>
       <span class="music-item__ctr">
         <el-upload
           :action="uploadUrl"
           :before-upload="fileCheck"
           :on-success="refreshResource">
-          <el-button size="medium " type="primary">R</el-button>
+          <el-button size="medium " type="primary">
+            <i class="theme-icons theme-icon__mupload"></i>
+          </el-button>
         </el-upload>
       </span>
     </div>
@@ -290,7 +298,14 @@ export default {
       text-align: center;
       height: 30px;
       line-height: 30px;
-      background: #f00;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .el-button{
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
     }
   }
 }

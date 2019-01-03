@@ -6,15 +6,21 @@
           <i class="theme-icons theme-icon__back"></i>编辑
         </div>
         <div class="header-func__wraper">
-          <div class="header-button__item">全屏</div>
-          <div class="header-button__item" @click="share">分享</div>
-          <div class="header-button__item">设置</div>
+          <div class="header-button__item">
+            <i class="theme-icons theme-icon__fullscreen"></i>
+          </div>
+          <div class="header-button__item" @click="share">
+            <i class="theme-icons theme-icon__share"></i>
+          </div>
+          <div class="header-button__item">
+            <i class="theme-icons theme-icon__setting"></i>
+          </div>
           <div class="header-button__mode">
-            <i class="theme-icons theme-icon__back"></i> 自动播放
+            <i class="theme-icons theme-icon__auto"></i> 自动播放
           </div>
         </div>
         <div class="header-text__title">
-          <h2>小美过生日</h2>
+          <h2>{{bookName}}</h2>
           <p>By: 浪德</p>
         </div>
       </div>
@@ -280,14 +286,25 @@ export default {
         .header-button__item{
           vertical-align: middle;
           display: inline-block;
-          width: 24px;
-          height: 24px;
-          background: #f00;
-          text-indent: -999px;
+          font-size: 30px;
           overflow: hidden;
+          height: 24px;
           margin-left: 18px;
           margin-right: 18px;
           cursor: pointer;
+          background: #efefef;
+          .theme-icons{
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 20px;
+            text-align: center;
+            vertical-align: top;
+            &:before{
+              display: inline-block;
+              line-height: 24px;
+            }
+          }
         }
       }
     }

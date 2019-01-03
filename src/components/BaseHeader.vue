@@ -12,7 +12,7 @@
       <router-link class="header-link__anchor"
                    :to="{name: 'BookList'}">精选绘本</router-link>
       <router-link class="header-link__button"
-                   :to="{name: ''}"
+                   :to="{name: 'Workbench'}"
                    v-if="udata && udata.name">进入工作台</router-link>
       <a class="header-link__button"
          href="javascript: void(0);"

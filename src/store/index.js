@@ -16,7 +16,6 @@ export default new Vuex.Store({
       state.isLoading = data
     },
     cacheUser (state, data = {}) {
-      debugger
       state.userData.id = data.id
       state.userData.name = data.name
     }

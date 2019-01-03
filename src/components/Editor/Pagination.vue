@@ -140,7 +140,9 @@ export default{
       display: inline-block;
       width: 24px;
       height: 24px;
-      background: #f00;
+      line-height: 24px;
+      text-align: center;
+      font-size: 120%;
     }
     .pagination-item__label{
       display: inline-block;
