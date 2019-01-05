@@ -1,5 +1,5 @@
 <template>
-  <ul class="pub-books__list">
+  <ul class="pub-books__list" v-if="books && books.length > 0">
     <!--可以编辑的书籍列表-->
     <template v-if="allowEdit">
       <li class="book-item__ctner book-style__card"
@@ -20,8 +20,7 @@
                            target="_blank">
                 <button class="pub-button__normal size-mini">预览作品</button>
               </router-link>
-              <router-link :to="{name: 'Drawer', query: {id: item.id}}"
-                           target="_blank">
+              <router-link :to="{name: 'Drawer', query: {id: item.id}}">
                 <button class="pub-button__normal size-mini">编辑作品</button>
               </router-link>
             </div>
@@ -51,6 +50,9 @@
       </li>
     </template>
   </ul>
+  <div class="book-list__empty" v-else>
+    暂无数据
+  </div>
 </template>
 
 <script>

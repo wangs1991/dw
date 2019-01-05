@@ -11,11 +11,13 @@
       </div>
       <div class="page-books__types">
         <span class="page-type__item"
+              :class="{'active': type === 0}" @click="selecteType({id: 0})">全部</span>
+        <span class="page-type__item"
               :class="{'active': type === item.id}"
               v-for="(item, idx) in typeList"
               @click="selecteType(item)"
               :key="idx">
-          {{item.label}}
+          {{item.type}}
         </span>
       </div>
     </div>
@@ -31,7 +33,7 @@
 import BaseHeader from '../components/BaseHeader.vue'
 import BookList from '../components/BookList.vue'
 
-import {getBookList} from '../server/actions'
+import {getBookList, getStyles, getSeriesByStyle} from '../server/actions'
 export default {
   name: 'SiftList',
   data () {
@@ -39,33 +41,26 @@ export default {
       bookName: '',
       type: 0,
       bookList: [],
-      typeList: [
-        {
-          id: 0,
-          label: '全部'
-        },
-        {
-          id: 1,
-          label: '中国古代'
-        },
-        {
-          id: 2,
-          label: '卡通动漫'
-        },
-        {
-          id: 3,
-          label: '经典绘本'
-        },
-        {
-          id: 4,
-          label: '大卫系列'
-        }
-      ]
+      typeList: []
     }
   },
   methods: {
     selecteType (item) {
       this.type = item.id
+      if (item.id === 0) {
+        getBookList().then(data => {
+          this.bookList = data
+        })
+        return false
+      }
+      getSeriesByStyle({custom: item.id}).then(data => {
+        this.bookList = data
+      }, () => { }).catch(e => {})
+    },
+    initTabData () {
+      getStyles().then(data => {
+        this.typeList = data
+      })
     }
   },
   components: {
@@ -74,9 +69,9 @@ export default {
   },
   created () {
     this.$nextTick(() => {
-      getBookList().then(data => {
-        this.bookList = data
-      })
+      this.selecteType({id: 0})
+
+      this.initTabData()
     })
   }
 }

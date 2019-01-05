@@ -36,6 +36,8 @@ export const getBookDetail = data => {
   }, true)
 }
 
-export const getConfig = url => {
-  return get(url, {}, true)
+export const getBooksByUid = data => {
+  return get('/tomato/query', {
+    params: data
+  }, true)
 }

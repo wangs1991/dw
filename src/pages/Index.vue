@@ -12,7 +12,7 @@
           <h1>{{mainInfo.slogan}}</h1>
           <p v-html="mainInfo.description"></p>
           <div class="user-c__button">
-            <router-link :to="{name: 'Drawer'}" target="_blank">
+            <router-link :to="{name: 'Drawer'}">
               <button class="pub-button__emphasize">开始创作</button>
             </router-link>
           </div>
@@ -36,20 +36,13 @@
       <p class="pub-title__sub">使用番茄号创作的绘本</p>
       <el-tabs v-model="bookType"
                :stretch="true"
+               ref="bookTypes"
+               :activeName="activeName"
                @tab-click="switchBooks">
-        <el-tab-pane label="经典绘本" name="first">
-          <BookList :books="bookList"></BookList>
-        </el-tab-pane>
-        <el-tab-pane label="安全教育" name="second">
-          <BookList :books="bookList"></BookList>
-        </el-tab-pane>
-        <el-tab-pane label="卡通动漫" name="third">
-          <BookList :books="bookList"></BookList>
-        </el-tab-pane>
-        <el-tab-pane label="英文精选" name="fourth">
-          <BookList :books="bookList"></BookList>
-        </el-tab-pane>
-        <el-tab-pane label="知名动画" name="fifth">
+        <el-tab-pane v-for="item in tabsData"
+                     :key="item.label"
+                     :label="item.type"
+                     :name="item.id+''">
           <BookList :books="bookList"></BookList>
         </el-tab-pane>
       </el-tabs>
@@ -104,7 +97,7 @@
 </template>
 
 <script>
-import {getBookList} from '../server/actions'
+import {getBookList, getStyles, getSeriesByStyle} from '../server/actions'
 
 import BaseHeader from '../components/BaseHeader.vue'
 import BookList from '../components/BookList.vue'
@@ -202,11 +195,30 @@ export default {
             '拥有番茄号，您只需安心创作。'
           ]
         }
-      ]
+      ],
+      tabsData: [],
+      activeName: ''
     }
   },
   methods: {
-    switchBooks (tab, event) {}
+    switchBooks (tab, event) {
+      this.getSublist(tab.name)
+    },
+    getSublist (id) {
+      getSeriesByStyle({custom: id}).then(data => {
+        this.bookList = data
+      }, () => { }).catch(e => {})
+    },
+    initTabData () {
+      getStyles().then(data => {
+        this.tabsData = data
+        this.$nextTick(() => {
+          this.$refs.bookTypes.setCurrentName(data[0].type)
+          this.activeName = data[0].id + ''
+          this.getSublist(data[0].id)
+        })
+      })
+    }
   },
   components: {
     BaseHeader,
@@ -219,6 +231,8 @@ export default {
       getBookList().then(data => {
         this.bookList = data
       })
+
+      this.initTabData()
     })
   }
 }

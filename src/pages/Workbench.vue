@@ -7,7 +7,9 @@
       </router-link>
 
       <div class="header-ele__user">
-        <img :src="require('../../static/images/avator-cus.png')" alt="">
+        <router-link :to="{name: 'Profile'}">
+          <img :src="require('../../static/images/avator-cus.png')" alt="">
+        </router-link>
       </div>
 
       <div class="header-ele__title">
@@ -21,22 +23,48 @@
                      target="_blank" class="editor__btn">
           创作绘本
         </router-link>
-        <a class="link-type" href="">全部</a>
-        <a class="link-type" href="">已收藏</a>
-        <a class="link-type" href="">已购买</a>
+        <span class="link-type active" @click="filter('all')">全部</span>
+        <span class="link-type" @click="filter('collect')">已收藏</span>
+        <span class="link-type" @click="filter('buy')">已购买</span>
       </div>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dignissimos dolores eius esse excepturi explicabo, incidunt ipsa labore mollitia, obcaecati, pariatur porro praesentium sunt tempore voluptatum. Alias ea nobis numquam!
+
+      <BookList :books="bookList"/>
     </div>
   </div>
 </template>
 
 <script>
+  import BookList from '../components/Ucenter/BookList.vue'
+
+  import {getBooksByUid} from '../server/actions'
   export default{
     name: 'workbench',
     data () {
       return {
-
+        bookList: []
       }
+    },
+    computed: {
+      udata () {
+        return this.$store.state.userData
+      }
+    },
+    methods: {
+      filter (type) {
+        console.log(type)
+      }
+    },
+    components: {
+      BookList
+    },
+    mounted () {
+      this.$nextTick(() => {
+        getBooksByUid({
+          uid: this.udata.id
+        }).then(data => {
+          this.bookList = data
+        })
+      })
     }
   }
 </script>
@@ -86,6 +114,7 @@
       padding: 7px 0;
       border-bottom: 1px solid #BBBBBB;
       line-height: 36px;
+      margin-bottom: 36px;
       .editor__btn{
         float: right;
         border: 1px solid #EB5648;
@@ -106,6 +135,10 @@
         margin-right: 24px;
         font-size: 18px;
         color: #6A6C8A;
+        cursor: pointer;
+        &.active{
+          color: #EB5648;
+        }
       }
     }
   }

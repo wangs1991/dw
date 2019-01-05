@@ -9,7 +9,7 @@ import Register from './register.vue'
 Vue.use(ModalDialogs)
 
 // Make serval dialog functions
-export const ShareDialog = ModalDialogs.create(Share, 'bookName')
+export const ShareDialog = ModalDialogs.create(Share, 'bookName', 'url')
 export const LoginDialog = ModalDialogs.create(Login)
 export const RegisterDialog = ModalDialogs.create(Register)
 

@@ -16,8 +16,9 @@ export default new Vuex.Store({
       state.isLoading = data
     },
     cacheUser (state, data = {}) {
-      state.userData.id = data.id
-      state.userData.name = data.name
+      Vue.set(state.userData, 'id', data.id)
+      Vue.set(state.userData, 'name', data.name)
+      Vue.set(state.userData, 'avator', data.headimgUrl)
     }
   },
   actions: {},

@@ -2,6 +2,7 @@
   <el-dialog
     class="dialog-style-chooser"
     :title="'Hi @' + dialogTitle + ',   请选择素材风格'"
+    :modal="false"
     :top="'6vh'"
     :visible.sync="typePrompt"
     :show-close="true"
@@ -17,6 +18,7 @@
         <swiper :options="swiperOption">
           <swiper-slide v-for="(item) in styles"
                         class="template-item__ctner"
+                        :style="{'background-image': 'url('+ (item.resourcePath || require('../../static/images/login-bg.jpg')) +')'}"
                         :key="item.id"
                         @click="chooseType(item)">
             <label class="template-item__title" :for="'tpl' + item.id">
@@ -61,7 +63,6 @@ export default {
   name: 'style-chooser',
   data () {
     return {
-      dialogTitle: 'Vonshine',
       selectedStyle: '',
       selectedSeries: '',
       swiperOption: {
@@ -123,6 +124,9 @@ export default {
       set (n) {
         this.$store.commit('updataStyleChooser', n)
       }
+    },
+    dialogTitle () {
+      return this.$store.state.userData.name
     }
   },
   methods: {
@@ -173,7 +177,7 @@ export default {
         margin-right: 40px;
         border-radius: 6px;
         position: relative;
-        background: url('../../static/images/login-bg.jpg') no-repeat;
+        background-repeat: no-repeat;
         -webkit-background-size: cover;
         background-size: cover;
         &:hover,

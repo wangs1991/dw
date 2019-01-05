@@ -32,7 +32,7 @@
     },
     methods: {
       async register () {
-        console.log(this.$register())
+        this.$register()
       }
     }
   }
@@ -47,6 +47,7 @@
     line-height: 53px;
     padding: 0 33px;
     border-bottom: 1px solid #AAAAAA;
+    background: #fff;
 
     .header-ele__logo{
       text-indent: -9999px;

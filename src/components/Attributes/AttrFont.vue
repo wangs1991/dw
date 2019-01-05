@@ -63,7 +63,7 @@
            @click="modifyStyle('textAlign', 'right')"></i>
       </div>
       <div class="control-text__icon">
-        <i class="edf-icons ic-txt-rotate"
+        <i class="theme-icons ic-txt-rotate"
            @click="resizeFrame()"></i>
       </div>
     </div>

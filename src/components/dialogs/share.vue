@@ -26,7 +26,7 @@
         level: 'M'
       })
 
-      code.value = window.location.href
+      code.value = this.url || window.location.href
       code.size = 220
     }
   }

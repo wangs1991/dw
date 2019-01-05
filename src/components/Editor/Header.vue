@@ -55,7 +55,7 @@
         </div>
         <!--中间标题区域-->
         <div class="header-func__title">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto atque beatae blanditiis ducimus ea eligendi ipsa magni molestiae, pariatur placeat recusandae rerum velit veniam. Eveniet illo repudiandae vitae! Ab, adipisci.
+          <!--title-->
         </div>
       </div>
     </div>

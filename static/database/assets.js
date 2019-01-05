@@ -13,10 +13,10 @@ module.exports = [{
                   <div class='asset-font__content'>双击修改文字</div>
                 </div>
             </div>`, // html字符串
-      content: 'HELLO 番茄号',
+      content: '番茄号，创造更美的世界',
       style: {
         root: { // 限用属性【宽高、位置、边框、背景颜色】
-          width: '100px',
+          width: '150px',
           height: '18px',
           display: 'inline-block',
           cursor: 'move',
