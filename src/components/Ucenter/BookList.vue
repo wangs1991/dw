@@ -15,8 +15,7 @@
         <div class="book-item__syncover">
           <!--操作的封面-->
           <div class="book-asyncover__btns">
-            <router-link :to="{name: 'Drawer', query: {id: item.id}}"
-                         target="_blank">
+            <router-link :to="{name: 'Drawer', query: {id: item.id}}">
               <i class="theme-icons theme-icon__edit"></i>
             </router-link>
           </div>
@@ -60,7 +59,7 @@
     },
     methods: {
       share (item) {
-        this.$share(item.name)
+        this.$share(item.name, 'http://' + window.location.host + '/#/player?id=' + item.id)
       }
     }
   }

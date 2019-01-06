@@ -1,21 +1,21 @@
 import {get, post} from './index'
 
 export const register = (data = {}) => {
-  return post('/user/register', data, true)
+  return post('/user/register', data)
 }
 
 export const login = (data = {}) => {
-  return post('/user/login', data, true)
+  return post('/user/login', data)
 }
 
 export const getStyles = () => {
-  return get('/tomato/allCustoms', {}, true)
+  return get('/tomato/allCustoms', {})
 }
 
 export const getSeriesByStyle = (data) => {
   return get('/tomato/query/custom', {
     params: data
-  }, true)
+  })
 }
 
 export const publishBook = data => {
@@ -33,11 +33,11 @@ export const getBookList = () => {
 export const getBookDetail = data => {
   return get('/tomato/query', {
     params: data
-  }, true)
+  })
 }
 
 export const getBooksByUid = data => {
-  return get('/tomato/query', {
+  return get('/tomato/query/uId', {
     params: data
-  }, true)
+  })
 }

@@ -60,7 +60,7 @@
     mounted () {
       this.$nextTick(() => {
         getBooksByUid({
-          uid: this.udata.id
+          uId: this.udata.id
         }).then(data => {
           this.bookList = data
         })

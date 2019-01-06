@@ -10,7 +10,7 @@
           <el-input v-model="bookForm.name"></el-input>
         </el-form-item>
         <el-form-item label="作者" prop="author">
-          <el-input type="input" v-model="bookForm.author"></el-input>
+          <el-input type="input" v-model="bookForm.author" readonly></el-input>
         </el-form-item>
         <el-form-item label="标签" prop="describeInfo">
           <el-input type="input" v-model="bookForm.describeInfo"></el-input>
@@ -74,6 +74,9 @@
       },
       bookBaseConfig () {
         return this.$store.state.Editor.bookBaseConfig
+      },
+      udata () {
+        return this.$store.state.userData
       }
     },
     methods: {
@@ -115,6 +118,8 @@
       this.$nextTick(() => {
         this.bookForm.dataPath = this.bookBaseConfig.dataPath
         this.bookForm.custom = this.bookBaseConfig.style
+        this.bookForm.userId = this.udata.id
+        this.bookForm.author = this.udata.name
       })
     }
   }

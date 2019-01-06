@@ -39,7 +39,9 @@ const limitFilter = (router, app) => {
     if (app.$store.state.userData.id) {
       return true
     } else {
-      app.$login()
+      app.$nextTick(() => {
+        app.$login()
+      })
       return false
     }
   } else {

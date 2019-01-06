@@ -18,7 +18,7 @@
         <swiper :options="swiperOption">
           <swiper-slide v-for="(item) in styles"
                         class="template-item__ctner"
-                        :style="{'background-image': 'url('+ (item.resourcePath || require('../../static/images/login-bg.jpg')) +')'}"
+                        :style="{'background-image': 'url('+ (item.resource_path || require('../../static/images/login-bg.jpg')) +')'}"
                         :key="item.id"
                         @click="chooseType(item)">
             <label class="template-item__title" :for="'tpl' + item.id">
@@ -103,6 +103,10 @@ export default {
           this.$store.commit('updateCurrentBookConfData', {
             style: this.selectedStyle
           })
+          this.$store.commit('appendPage')
+          this.$nextTick(function () {
+            this.$store.commit('setCurrentPage', 0)
+          })
         } else {
           this.seriesList = data
         }
@@ -113,6 +117,11 @@ export default {
           this.$store.commit('updateCurrentBookConfData', {
             style: this.selectedStyle
           })
+
+        this.$store.commit('appendPage')
+        this.$nextTick(function () {
+          this.$store.commit('setCurrentPage', 0)
+        })
       }).catch(e => {})
     }
   },

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <loading/>
     <router-view/>
     <!-- Put it at the end of App.vue -->
     <dialogs-wrapper wrapper-name="default" />
@@ -7,8 +8,13 @@
 </template>
 
 <script>
+  import Loading from './components/loading'
+
   export default {
-    name: 'App'
+    name: 'App',
+    components: {
+      Loading
+    }
   }
 </script>
 

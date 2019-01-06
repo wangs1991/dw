@@ -39,7 +39,9 @@ export const get = (function () {
 
     return new Promise((resolve, reject) => {
       if (!isSilence) {
-        Application.$store.commit('loading', true)
+        try {
+          Application.$store.commit('loading', true)
+        } catch (e) { }
       }
       axios.get(url, params)
         .then(response => {
